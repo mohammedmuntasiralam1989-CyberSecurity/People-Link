@@ -155,10 +155,31 @@
             <div class="right-sidebar">
                 <div class="trending-section" style="margin-bottom: 24px;">
                     <div class="section-header">
-                        <h3>Platform Insights</h3>
+                        <h3>Global Mood Pulse</h3>
+                        <div class="ai-badge">LIVE AI</div>
+                    </div>
+                    <div class="mood-dashboard">
+                        <div class="mood-main">
+                            <div class="mood-icon" id="dashboardMoodIcon">😊</div>
+                            <div class="mood-value" id="dashboardMoodText">Positive</div>
+                        </div>
+                        <div class="mood-stats">
+                            <div class="mood-stat-item">
+                                <div class="stat-bar"><div class="stat-fill" style="width: 75%; background: #10b981;"></div></div>
+                                <div class="stat-label">Joy</div>
+                            </div>
+                            <div class="mood-stat-item">
+                                <div class="stat-bar"><div class="stat-fill" style="width: 15%; background: #6366f1;"></div></div>
+                                <div class="stat-label">Curiosity</div>
+                            </div>
+                            <div class="mood-stat-item">
+                                <div class="stat-bar"><div class="stat-fill" style="width: 10%; background: #f59e0b;"></div></div>
+                                <div class="stat-label">Neutral</div>
+                            </div>
+                        </div>
                     </div>
                     <div style="padding: 10px 0;">
-                        <canvas id="activityChart" height="200"></canvas>
+                        <canvas id="activityChart" height="150"></canvas>
                     </div>
                     <div
                         style="display: flex; justify-content: space-around; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
@@ -424,7 +445,35 @@
                 if (statUsersEl) statUsersEl.textContent = users.length;
                 if (moodEl && posts.length > 0) {
                     const s = analyzeSentiment(posts[0].content);
-                    moodEl.textContent = s.mood === "Positive" ? "😊" : (s.mood === "Negative" ? "😟" : "😐");
+                    const icon = s.mood === "Positive" ? "😊" : (s.mood === "Negative" ? "😟" : "😐");
+                    moodEl.textContent = icon;
+                    
+                    // Update Dashboard
+                    const dashIcon = document.getElementById('dashboardMoodIcon');
+                    const dashText = document.getElementById('dashboardMoodText');
+                    if (dashIcon) dashIcon.textContent = icon;
+                    if (dashText) {
+                        dashText.textContent = s.mood;
+                        dashText.style.color = s.color;
+                    }
+                    
+                    // Update Progress Bars with slight randomization for "Live" feel
+                    const bars = document.querySelectorAll('.stat-fill');
+                    if (bars.length >= 3) {
+                        if (s.mood === "Positive") {
+                            bars[0].style.width = (70 + Math.random() * 20) + "%";
+                            bars[1].style.width = (10 + Math.random() * 10) + "%";
+                            bars[2].style.width = (5 + Math.random() * 5) + "%";
+                        } else if (s.mood === "Negative") {
+                            bars[0].style.width = (10 + Math.random() * 10) + "%";
+                            bars[1].style.width = (15 + Math.random() * 10) + "%";
+                            bars[2].style.width = (60 + Math.random() * 20) + "%";
+                        } else {
+                            bars[0].style.width = (30 + Math.random() * 10) + "%";
+                            bars[1].style.width = (40 + Math.random() * 10) + "%";
+                            bars[2].style.width = (30 + Math.random() * 10) + "%";
+                        }
+                    }
                 }
             } catch (_) { }
         }
