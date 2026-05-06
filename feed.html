@@ -98,6 +98,23 @@
             </div>
 
             <div class="feed-content">
+                <div class="ai-insights-bar">
+                    <div class="ai-insight-item">
+                        <span class="ai-pulse-dot"></span>
+                        <span class="ai-insight-label">Platform Health:</span>
+                        <span class="ai-insight-value" id="platformHealth">OPTIMAL</span>
+                    </div>
+                    <div class="ai-insight-item">
+                        <i class="fas fa-microchip"></i>
+                        <span class="ai-insight-label">Neural Load:</span>
+                        <span class="ai-insight-value" id="neuralLoad">12%</span>
+                    </div>
+                    <div class="ai-insight-item">
+                        <i class="fas fa-users"></i>
+                        <span class="ai-insight-label">Global Pulse:</span>
+                        <span class="ai-insight-value" id="globalPulse">HIGH</span>
+                    </div>
+                </div>
                 <div class="stories-section">
                     <div class="section-header">
                         <h3>Stories</h3>
@@ -415,6 +432,17 @@
             if (ds.data.length > 40) { ds.data.shift(); labels.shift(); }
 
             activityChart.update('none');   // 'none' = no animation, instant paint
+            updateInsightsBar();
+        }
+
+        function updateInsightsBar() {
+            const neuralLoad = document.getElementById('neuralLoad');
+            const globalPulse = document.getElementById('globalPulse');
+            if (neuralLoad) neuralLoad.textContent = (10 + Math.floor(Math.random() * 15)) + "%";
+            if (globalPulse) {
+                const pulses = ["STABLE", "HIGH", "ACTIVE", "PEAK"];
+                globalPulse.textContent = pulses[Math.floor(Math.random() * pulses.length)];
+            }
         }
 
         // ─── Data sync: every 8s fetch real counts silently ───
