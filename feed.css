@@ -671,3 +671,73 @@
         display: none;
     }
 }
+
+/* AI Mood Dashboard Styles */
+.ai-badge {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+.mood-dashboard {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mood-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.mood-icon {
+    font-size: 2rem;
+}
+
+.mood-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.mood-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mood-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stat-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.stat-fill {
+    height: 100%;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #888;
+    min-width: 60px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
