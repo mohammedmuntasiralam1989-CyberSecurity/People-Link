@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Help Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: radial-gradient(circle at center, #1e1b4b, #0a0a0a);
+        }
+        .help-header {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        .help-header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+        .help-card {
+            padding: 32px;
+            border-radius: 24px;
+        }
+        .help-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .help-card i {
+            color: #818cf8;
+        }
+        .help-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .help-card li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .help-card li:hover {
+            color: #fff;
+            transform: translateX(5px);
+        }
+        .support-cta {
+            padding: 60px;
+            text-align: center;
+            border-radius: 40px;
+            margin-bottom: 80px;
+        }
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-inner">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Logo" style="height: 32px; border-radius: 6px;">
+                PEOPLE LINK
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="features.html">Features</a>
+                <a href="help.html" class="active">Help</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="help-header">
+            <h1>Help Center</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">How can we assist you today? Search our resources below.</p>
+        </div>
+
+        <div class="help-grid">
+            <div class="glass-card help-card">
+                <h3><i class="fas fa-user-circle"></i> Account Setup</h3>
+                <ul>
+                    <li>How to create a new account</li>
+                    <li>Verifying your identity</li>
+                    <li>Changing your profile picture</li>
+                    <li>Recovery and password reset</li>
+                </ul>
+            </div>
+            <div class="glass-card help-card">
+                <h3><i class="fas fa-lock"></i> Privacy & Security</h3>
+                <ul>
+                    <li>Two-factor authentication</li>
+                    <li>Managing post visibility</li>
+                    <li>Blocking and reporting users</li>
+                    <li>Data protection policies</li>
+                </ul>
+            </div>
+            <div class="glass-card help-card">
+                <h3><i class="fas fa-stream"></i> Using the Feed</h3>
+                <ul>
+                    <li>How the smart feed works</li>
+                    <li>Creating high-quality posts</li>
+                    <li>Managing notifications</li>
+                    <li>Discovering new communities</li>
+                </ul>
+            </div>
+            <div class="glass-card help-card">
+                <h3><i class="fas fa-file-contract"></i> Platform Rules</h3>
+                <ul>
+                    <li>Community guidelines</li>
+                    <li>Terms of service</li>
+                    <li>Content moderation</li>
+                    <li>Copyright policies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="glass-card support-cta">
+            <h2 style="color: #fff; margin-bottom: 20px; font-size: 2rem;">Still need help?</h2>
+            <p style="color: var(--text-muted); margin-bottom: 32px;">Our support team is available 24/7 to help you with any issues.</p>
+            <div style="display: flex; gap: 16px; justify-content: center;">
+                <a href="contact.html" class="btn btn-primary">Contact Support</a>
+                <a href="privacy.html" class="btn btn-secondary">Privacy Center</a>
+            </div>
+        </div>
+
+        <footer style="padding: 40px 0; text-align: center; color: var(--text-muted);">
+            <p>&copy; 2026 People Link. We are here to help.</p>
+        </footer>
+    </div>
+</body>
+</html>

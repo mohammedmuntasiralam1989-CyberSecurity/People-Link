@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>People Link - Feed</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons (Ionicons & FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="ai-monitor.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="feed.css">
+</head>
+
+<body>
+    <div class="mobile-bottom-nav">
+        <a href="feed.html" class="mobile-nav-item active">🏠</a>
+        <a href="reels.html" class="mobile-nav-item">📱</a>
+        <a href="editor.html" class="mobile-nav-item"
+            style="font-size: 1.8rem; color: #6366f1; transform: translateY(-5px);">+
+        </a>
+        <a href="messages.html" class="mobile-nav-item">💬</a>
+        <a href="profile.html" class="mobile-nav-item">👤</a>
+    </div>
+    <div class="cube cube-1">
+        <div class="face front"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+    </div>
+    <div class="cube cube-2">
+        <div class="face front"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+    </div>
+
+    <header>
+        <div class="container header-container">
+            <div class="logo" data-nav="home">
+                <img src="logo.png" alt="People Link Logo"
+                    style="height: 32px; width: auto; margin-right: 10px; border-radius: 6px; vertical-align: middle;">
+                PEOPLE LINK
+            </div>
+            <div class="search-bar" style="position:relative;">
+                <input type="search" placeholder="Search people, posts..." id="globalSearch">
+                <div id="searchResults"
+                    style="display:none; position:absolute; top:100%; left:0; right:0; background:#151515; border:1px solid rgba(255,255,255,0.1); border-radius:16px; margin-top:6px; max-height:320px; overflow-y:auto; z-index:200; box-shadow:0 12px 40px rgba(0,0,0,0.6);">
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary nav-icon" type="button" data-nav="home">Home</button>
+                <button class="btn btn-secondary nav-icon" type="button" data-nav="reels">Reels</button>
+                <button class="btn btn-secondary nav-icon" type="button" data-nav="messages">Chat<div
+                        class="notification-badge">0</div></button>
+                <button class="btn btn-secondary nav-icon" type="button" data-nav="notifications">Alert<div
+                        class="notification-badge">0</div></button>
+                <button class="btn btn-secondary nav-icon" type="button" data-nav="settings">Settings</button>
+                <button class="btn btn-secondary nav-icon" type="button" id="logoutBtn">Logout</button>
+                <div class="user-avatar" id="userAvatar">U</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="feed-container">
+            <!-- Left Sidebar -->
+            <div class="left-sidebar">
+                <a class="sidebar-link active" href="feed.html"><span class="sb-icon">🏠</span> Home</a>
+                <a class="sidebar-link" href="global-3d.html"><span class="sb-icon">🌐</span> Global 3D</a>
+                <a class="sidebar-link" href="profile.html"><span class="sb-icon">👤</span> Profile</a>
+                <a class="sidebar-link" href="messages.html"><span class="sb-icon">💬</span> Messages <span
+                        class="sb-badge" id="sbMsgBadge" style="display:none;">0</span></a>
+                <a class="sidebar-link" href="notifications.html"><span class="sb-icon">🔔</span> Notifications <span
+                        class="sb-badge" id="sbNotifBadge" style="display:none;">0</span></a>
+                <a class="sidebar-link" href="reels.html"><span class="sb-icon">🎬</span> Reels</a>
+                <a class="sidebar-link" href="explore.html"
+                    style="background: rgba(220, 110, 37, 0.1); color: #dc6e25; border-radius: 12px; margin: 4px 0;"><span
+                        class="sb-icon">✨</span> Explore Vision</a>
+                <a class="sidebar-link" href="features.html"><span class="sb-icon">🌐</span> Platform Features</a>
+                <a class="sidebar-link" href="settings.html"><span class="sb-icon">⚙️</span> Settings</a>
+                <a class="sidebar-link" href="about.html"><span class="sb-icon">ℹ️</span> About</a>
+                <a class="sidebar-link" href="help.html"><span class="sb-icon">❓</span> Help</a>
+            </div>
+
+            <div class="feed-content">
+                <div class="stories-section">
+                    <div class="section-header">
+                        <h3>Stories</h3>
+                        <div class="see-all">See all</div>
+                    </div>
+                    <div class="stories-container">
+                        <div class="story add-story">
+                            <div class="story-avatar">
+                                <div class="story-avatar-inner">+</div>
+                            </div>
+                            <div class="story-name">Your Story</div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="create-post">
+                    <div class="post-input-container">
+                        <div class="post-avatar"></div>
+                        <div class="post-input">
+                            <textarea placeholder="What's on your mind, creator?"></textarea>
+                        </div>
+                    </div>
+                    <div class="post-actions"
+                        style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+                        <div class="media-options">
+                            <div class="media-option" id="photoOption">📷 Photo</div>
+                            <div class="media-option" id="videoOption">🎥 Video</div>
+                            <div class="media-option" id="liveOption">🔴 Go Live</div>
+                            <div class="media-option">📄 Document</div>
+                            <input type="file" id="imageInput" accept="image/*" hidden>
+                            <input type="file" id="videoInput" accept="video/*" hidden>
+                        </div>
+                        <div class="preview-container" id="mediaPreview">
+                            <div class="remove-preview" id="removePreview">×</div>
+                            <div id="previewContent"></div>
+                        </div>
+                        <div class="upload-progress-container" id="uploadProgressContainer">
+                            <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                            <button type="button" class="cancel-upload-btn" id="cancelUploadBtn">CANCEL</button>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button class="ai-btn" id="aiAssistantBtn">✨ AI Magic</button>
+                            <button class="btn btn-primary post-btn" id="publishPostBtn">Post</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="right-sidebar">
+                <div class="trending-section" style="margin-bottom: 24px;">
+                    <div class="section-header">
+                        <h3>Platform Insights</h3>
+                    </div>
+                    <div style="padding: 10px 0;">
+                        <canvas id="activityChart" height="200"></canvas>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-around; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                        <div style="text-align: center;">
+                            <div id="statUsers" style="font-size: 1.1rem; font-weight: 700;">0</div>
+                            <div style="font-size: 0.65rem; color: #aaa;">USERS</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div id="statPosts" style="font-size: 1.1rem; font-weight: 700;">0</div>
+                            <div style="font-size: 0.65rem; color: #aaa;">POSTS</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div id="statMood" style="font-size: 1.1rem; font-weight: 700;">😊</div>
+                            <div style="font-size: 0.65rem; color: #aaa;">MOOD</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="suggestions-section">
+                    <div class="section-header">
+                        <h3>People You May Know</h3>
+                    </div>
+
+
+
+                </div>
+                <div class="trending-section">
+                    <div class="section-header">
+                        <h3>Trending Topics</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="premium-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Logo">
+                        <span>People Link</span>
+                    </div>
+                    <p>Connecting the world through meaningful relationships and professional growth.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <div class="footer-col">
+                        <h4>Platform</h4>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="features.html">Features</a></li>
+                            <li><a href="about.html#careers">Careers</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="profile.html">Profiles</a></li>
+                            <li><a href="features.html">Connections</a></li>
+                            <li><a href="features.html">Groups</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="help.html">Help Center</a></li>
+                            <li><a href="settings.html">Guidelines</a></li>
+                            <li><a href="privacy.html">Privacy Policy</a></li>
+                            <li><a href="terms.html">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 People Link. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="settings.html">Settings</a>
+                    <a href="feed.html">Feed</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getCurrentUser() {
+            try {
+                const raw = localStorage.getItem("peoplelink_currentUser");
+                return raw ? JSON.parse(raw) : null;
+            } catch (_err) {
+                return null;
+            }
+        }
+
+        function getAuthHeaders(extra = {}) {
+            const token = localStorage.getItem("peoplelink_authToken");
+            return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            }[char]));
+        }
+
+        const currentUser = getCurrentUser();
+        if (!currentUser || (!currentUser.username && !currentUser.email)) {
+            window.location.href = "login.html";
+        }
+
+        const userAvatar = document.getElementById("userAvatar");
+        if (userAvatar && currentUser) {
+            const displayName = currentUser.fullName || currentUser.username || currentUser.email || "User";
+            userAvatar.title = displayName;
+            if (currentUser.avatarUrl) {
+                userAvatar.innerHTML = `<img src="${currentUser.avatarUrl}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+            } else {
+                userAvatar.textContent = displayName.charAt(0).toUpperCase();
+            }
+        }
+
+        document.addEventListener("click", (e) => {
+            if (e.target.classList.contains("like-btn")) {
+                const btn = e.target;
+                const isLiked = btn.classList.contains("liked");
+                const statsDiv = btn.closest(".post") ? btn.closest(".post").querySelector(".post-stats") : null;
+                const likeSpan = statsDiv ? statsDiv.querySelector("span:first-child") : null;
+                const currentLikes = likeSpan ? parseInt((likeSpan.innerText.match(/\d+/) || [0])[0], 10) : 0;
+
+                if (!isLiked) {
+                    btn.classList.add("liked");
+                    btn.textContent = "Liked";
+                    if (likeSpan && !Number.isNaN(currentLikes)) likeSpan.textContent = `${currentLikes + 1} likes`;
+                    if (typeof onLikeActivity === 'function') onLikeActivity();
+                } else {
+                    btn.classList.remove("liked");
+                    btn.textContent = "Like";
+                    if (likeSpan && !Number.isNaN(currentLikes) && currentLikes > 0) likeSpan.textContent = `${currentLikes - 1} likes`;
+                }
+            }
+        });
+
+        const postBtn = document.getElementById("publishPostBtn");
+        const postTextarea = document.querySelector(".post-input textarea");
+        const feedContent = document.querySelector(".feed-content");
+
+        // --- AI & Analytics Logic ---
+        function analyzeSentiment(text) {
+            const positiveWords = ["good", "great", "awesome", "love", "happy", "excellent", "best", "wonderful", "nice", "valobashi", "shundor", "valo"];
+            const negativeWords = ["bad", "sad", "hate", "worst", "boring", "awful", "stupid", "poor", "kharap", "ghreena", "bal", "aje baje"];
+
+            const words = text.toLowerCase().split(/\s+/);
+            let score = 0;
+            words.forEach(w => {
+                if (positiveWords.includes(w)) score++;
+                if (negativeWords.includes(w)) score--;
+            });
+
+            if (score > 0) return { mood: "Positive", icon: "✨ Feeling Great", color: "#10b981" };
+            if (score < 0) return { mood: "Negative", icon: "🌧️ Feeling Low", color: "#ef4444" };
+            return { mood: "Neutral", icon: "😐 Neutral", color: "#9ca3af" };
+        }
+
+        let activityChart = null;
+        let liveHistory = [10, 14, 12, 18, 15, 22, 17, 25, 20, 28, 18, 24, 22, 30, 26, 28, 32, 35, 30, 38];
+        let postCountCache = 0;
+        let likeCountCache = 0;
+
+        function initChart() {
+            const canvas = document.getElementById('activityChart');
+            if (!canvas || activityChart) return;
+            const ctx = canvas.getContext('2d');
+            activityChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(liveHistory.length).fill(''),
+                    datasets: [{
+                        label: 'Live Activity',
+                        data: [...liveHistory],
+                        borderColor: '#6366f1',
+                        backgroundColor: (context) => {
+                            const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 160);
+                            gradient.addColorStop(0, 'rgba(99,102,241,0.4)');
+                            gradient.addColorStop(1, 'rgba(99,102,241,0.01)');
+                            return gradient;
+                        },
+                        borderWidth: 2.5,
+                        tension: 0.45,
+                        fill: true,
+                        pointRadius: 0,
+                        pointHoverRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false, // Disabled — we animate manually via tick
+                    transitions: { active: { animation: { duration: 0 } } },
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        y: { display: false, min: 0 },
+                        x: { display: false }
+                    }
+                }
+            });
+        }
+
+        // ─── Smooth tick: every 800ms push a new data point and shift left ───
+        function tickChart() {
+            if (!activityChart) return;
+            const ds = activityChart.data.datasets[0];
+            const labels = activityChart.data.labels;
+
+            // Base value drifts slightly + reacts to real post/like spikes
+            const lastVal = ds.data[ds.data.length - 1] || 20;
+            const drift = (Math.random() - 0.48) * 4;     // small random walk
+            const postSpike = (postCountCache > 0) ? postCountCache * 2 : 0;
+            const likeSpike = (likeCountCache > 0) ? likeCountCache * 1.5 : 0;
+            postCountCache = 0; likeCountCache = 0;        // consume spikes
+
+            const next = Math.max(5, Math.min(80, lastVal + drift + postSpike + likeSpike));
+
+            ds.data.push(next);
+            labels.push('');
+            if (ds.data.length > 40) { ds.data.shift(); labels.shift(); }
+
+            activityChart.update('none');   // 'none' = no animation, instant paint
+        }
+
+        // ─── Data sync: every 8s fetch real counts silently ───
+        async function syncAnalyticsData() {
+            try {
+                const resPosts = await fetch('/api/posts');
+                const posts = await resPosts.json();
+                let users = [];
+                try {
+                    const resUsers = await fetch('/api/users');
+                    users = resUsers.ok ? await resUsers.json() : JSON.parse(localStorage.getItem('peoplelink_users') || '[]');
+                } catch (_) {
+                    users = JSON.parse(localStorage.getItem('peoplelink_users') || '[]');
+                }
+
+                const newPostCount = posts.length;
+                const statPostsEl = document.getElementById('statPosts');
+                const statUsersEl = document.getElementById('statUsers');
+                const moodEl = document.getElementById('statMood');
+
+                if (statPostsEl) {
+                    const prev = parseInt(statPostsEl.textContent) || 0;
+                    if (newPostCount > prev) {
+                        postCountCache += (newPostCount - prev) * 5; // spike on new posts
+                    }
+                    statPostsEl.textContent = newPostCount;
+                }
+                if (statUsersEl) statUsersEl.textContent = users.length;
+                if (moodEl && posts.length > 0) {
+                    const s = analyzeSentiment(posts[0].content);
+                    moodEl.textContent = s.mood === "Positive" ? "😊" : (s.mood === "Negative" ? "😟" : "😐");
+                }
+            } catch (_) { }
+        }
+
+        // ─── Public hook: call this when user hits Like ───
+        function onLikeActivity() { likeCountCache += 3; }
+
+        // Boot
+        initChart();
+        setInterval(tickChart, 800);         // silky 800ms tick
+        syncAnalyticsData();
+        setInterval(syncAnalyticsData, 8000); // silent background sync 
+        // --- End AI & Analytics ---
+
+        // --- Global Search Logic ---
+        const globalSearchInput = document.getElementById("globalSearch");
+        const searchResultsDiv = document.getElementById("searchResults");
+        let searchTimeout = null;
+
+        if (globalSearchInput && searchResultsDiv) {
+            globalSearchInput.addEventListener("input", (e) => {
+                const term = e.target.value.trim();
+                clearTimeout(searchTimeout);
+                if (!term) {
+                    searchResultsDiv.style.display = "none";
+                    searchResultsDiv.innerHTML = "";
+                    // Show all posts again
+                    document.querySelectorAll(".post").forEach(p => p.style.display = "");
+                    return;
+                }
+
+                // Filter visible posts
+                const termLower = term.toLowerCase();
+                document.querySelectorAll(".post").forEach(post => {
+                    const text = (post.querySelector(".post-text")?.textContent || "").toLowerCase();
+                    const author = (post.querySelector(".post-user-name")?.textContent || "").toLowerCase();
+                    post.style.display = (!termLower || text.includes(termLower) || author.includes(termLower)) ? "" : "none";
+                });
+
+                // Search users from API with debounce
+                searchTimeout = setTimeout(async () => {
+                    try {
+                        const res = await fetch(`/api/users/search?q=${encodeURIComponent(term)}`);
+                        const users = await res.json();
+                        if (!Array.isArray(users) || users.length === 0) {
+                            searchResultsDiv.innerHTML = '<div style="padding:16px;color:#666;text-align:center;font-size:0.85rem;">No users found</div>';
+                        } else {
+                            searchResultsDiv.innerHTML = users.slice(0, 8).map(u => `
+                                <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;transition:0.15s;border-bottom:1px solid rgba(255,255,255,0.04);" class="search-user-item" data-id="${u.id}" data-name="${escapeHtml(u.fullName || u.username)}">
+                                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;color:#fff;overflow:hidden;flex-shrink:0;">${u.avatarUrl ? `<img src="${u.avatarUrl}" style="width:100%;height:100%;object-fit:cover;">` : escapeHtml((u.fullName || u.username || 'U').charAt(0).toUpperCase())}</div>
+                                    <div><div style="font-weight:600;font-size:0.88rem;">${escapeHtml(u.fullName || u.username)}</div><div style="font-size:0.72rem;color:#666;">@${escapeHtml(u.username || '')}</div></div>
+                                </div>
+                            `).join('');
+                        }
+                        searchResultsDiv.style.display = "block";
+
+                        searchResultsDiv.querySelectorAll('.search-user-item').forEach(el => {
+                            el.addEventListener('mouseenter', () => el.style.background = 'rgba(99,102,241,0.08)');
+                            el.addEventListener('mouseleave', () => el.style.background = '');
+                            el.addEventListener('click', () => {
+                                // Navigate to profile or open message
+                                window.location.href = `profile.html?user=${el.dataset.id}`;
+                            });
+                        });
+                    } catch (e) { }
+                }, 300);
+            });
+
+            // Close search on click outside
+            document.addEventListener("click", (e) => {
+                if (!e.target.closest(".search-bar")) {
+                    searchResultsDiv.style.display = "none";
+                }
+            });
+
+            globalSearchInput.addEventListener("focus", () => {
+                if (searchResultsDiv.innerHTML.trim()) searchResultsDiv.style.display = "block";
+            });
+        }
+
+        let loadedPostIds = new Set();
+
+        async function loadPosts() {
+            try {
+                const response = await fetch('/api/posts');
+                const posts = await response.json();
+                if (!Array.isArray(posts)) {
+                    console.warn("Expected array of posts, got:", posts);
+                    return;
+                }
+
+                // Track current scroll position to avoid jumping
+                const scrollPos = window.scrollY;
+
+                // Sort posts by date (newest first) - assuming they have id or timestamp
+                const newPosts = posts.filter(p => !loadedPostIds.has(p.id));
+
+                if (newPosts.length > 0) {
+                    newPosts.forEach(post => {
+                        loadedPostIds.add(post.id);
+                        const sentiment = analyzeSentiment(post.content);
+                        const postEl = document.createElement('div');
+                        postEl.className = 'post';
+                        postEl.setAttribute('data-id', post.id);
+
+                        let mediaHtml = '';
+                        if (post.image) {
+                            mediaHtml = `<div class="post-media-content"><img src="${post.image}" alt="Post image"></div>`;
+                        } else if (post.video) {
+                            mediaHtml = `<div class="post-media-content"><video src="${post.video}" controls></video></div>`;
+                        }
+
+                        const safeAuthorName = escapeHtml(post.authorName || "User");
+                        const safeContent = escapeHtml(post.content || "");
+                        const safeInitial = escapeHtml((post.authorName || "U").charAt(0).toUpperCase());
+                        const avatarHtml = post.authorAvatar
+                            ? `<div class="post-user-avatar" style="background:none;overflow:hidden;"><img src="${post.authorAvatar}" alt="${safeAuthorName}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>`
+                            : `<div class="post-user-avatar">${safeInitial}</div>`;
+
+                        // Ensure comments array exists
+                        const commentsCount = post.comments ? post.comments.length : 0;
+                        const likeCount = post.likes || 0;
+                        const me = getCurrentUser();
+                        const likedByMe = post.likedBy && me && post.likedBy.includes(me.id);
+
+                        postEl.innerHTML = `
+                            <div class="post-header">
+                                <a href="profile.html?user=${post.author_id}" style="text-decoration: none; color: inherit;">
+                                    ${avatarHtml}
+                                </a>
+                                <div class="post-user-info">
+                                    <div class="post-user-name">
+                                        <a href="profile.html?user=${post.author_id}" style="text-decoration: none; color: inherit; font-weight: 700;">
+                                            ${safeAuthorName}
+                                        </a>
+                                    </div>
+                                    <div class="post-time">Just now | Public • <span style="color:${sentiment.color}">${sentiment.icon}</span></div>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-text">${safeContent}</div>
+                                ${mediaHtml}
+                            </div>
+                            <div class="post-stats">
+                                <span class="like-counter">❤️ ${likeCount}</span>
+                                <span>${commentsCount} comments</span>
+                            </div>
+                            <div class="post-actions-bar">
+                                <div class="post-action like-btn" style="color: ${likedByMe ? '#ff4757' : 'inherit'}">Like</div>
+                                <div class="post-action comment-btn">Comment</div>
+                                <div class="post-action share-btn">Share</div>
+                            </div>
+                            <div class="comments-section" style="display: none; padding: 10px; border-top: 1px solid rgba(255,255,255,0.05);">
+                                <div class="comments-list" style="max-height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 0.85rem;">
+                                    ${(post.comments || []).map(c => `
+                                        <div style="margin-bottom: 6px;">
+                                            <strong style="color: #e5e7eb;">${escapeHtml(c.userName)}</strong> <span style="color: #9ca3af;">${escapeHtml(c.text)}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" class="comment-input" placeholder="Write a comment..." style="flex: 1; padding: 8px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: white; outline: none; font-size: 0.85rem;">
+                                    <button class="submit-comment-btn" style="background: linear-gradient(135deg, #6366f1, #a855f7); border: none; color: white; padding: 0 16px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.85rem;">Post</button>
+                                </div>
+                            </div>
+                        `;
+
+                        // Add event listeners for interactable elements
+                        const likeBtn = postEl.querySelector('.like-btn');
+                        const likeCounter = postEl.querySelector('.like-counter');
+                        likeBtn.addEventListener('click', async () => {
+                            try {
+                                const res = await fetch(`/api/posts/${post.id}/like`, {
+                                    method: 'POST',
+                                    headers: getAuthHeaders()
+                                });
+                                if (res.ok) {
+                                    const data = await res.json();
+                                    likeCounter.textContent = `❤️ ${data.likes}`;
+                                    likeBtn.style.color = data.likedByMe ? '#ff4757' : 'inherit';
+                                    if (typeof onLikeActivity === 'function') onLikeActivity();
+                                }
+                            } catch (e) { console.error('Like failed', e); }
+                        });
+
+                        const commentBtn = postEl.querySelector('.comment-btn');
+                        const commentsSection = postEl.querySelector('.comments-section');
+                        commentBtn.addEventListener('click', () => {
+                            commentsSection.style.display = commentsSection.style.display === 'none' ? 'block' : 'none';
+                        });
+
+                        const submitCommentBtn = postEl.querySelector('.submit-comment-btn');
+                        const commentInput = postEl.querySelector('.comment-input');
+                        const commentsList = postEl.querySelector('.comments-list');
+                        const statsEl = postEl.querySelector('.post-stats span:last-child');
+
+                        submitCommentBtn.addEventListener('click', async () => {
+                            const text = commentInput.value.trim();
+                            if (!text) return;
+
+                            try {
+                                const res = await fetch(`/api/posts/${post.id}/comments`, {
+                                    method: 'POST',
+                                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                                    body: JSON.stringify({ text })
+                                });
+                                if (res.ok) {
+                                    const newComment = await res.json();
+                                    commentInput.value = '';
+                                    commentsList.innerHTML += `
+                                        <div style="margin-bottom: 6px;">
+                                            <strong style="color: #e5e7eb;">${escapeHtml(newComment.userName)}</strong> <span style="color: #9ca3af;">${escapeHtml(newComment.text)}</span>
+                                        </div>
+                                    `;
+
+                                    // Update counter visually
+                                    const currentCount = parseInt(statsEl.textContent) || 0;
+                                    statsEl.textContent = `${currentCount + 1} comments`;
+
+                                    // Scroll to bottom
+                                    commentsList.scrollTop = commentsList.scrollHeight;
+                                }
+                            } catch (e) { console.error('Comment failed', e); }
+                        });
+
+                        const shareBtn = postEl.querySelector('.share-btn');
+                        shareBtn.addEventListener('click', () => {
+                            navigator.clipboard.writeText(window.location.origin + '/feed.html?post=' + post.id);
+                            alert('Post link copied to clipboard!');
+                        });
+
+                        const createPostBox = document.querySelector('.create-post');
+                        createPostBox.parentNode.insertBefore(postEl, createPostBox.nextSibling);
+                    });
+                }
+            } catch (err) {
+                console.error("Background load failed", err);
+            }
+        }
+
+        // Initial load and background refresh every 10 seconds
+        loadPosts();
+        setInterval(loadPosts, 10000);
+
+        // --- Dynamic Stories Logic ---
+        async function loadStories() {
+            const container = document.querySelector(".stories-container");
+            if (!container) return;
+
+            try {
+                const storiesRes = await fetch('/api/stories');
+                const stories = await storiesRes.json();
+                if (!Array.isArray(stories)) {
+                    console.warn("Expected array of stories, got:", stories);
+                    return;
+                }
+
+                const liveRes = await fetch('/api/live');
+                const lives = await liveRes.json();
+                if (!Array.isArray(lives)) {
+                    console.warn("Expected array of lives, got:", lives);
+                    return;
+                }
+
+                // Keep the "Add Story" button
+                const addStoryBtn = container.querySelector(".add-story");
+                container.innerHTML = "";
+                container.appendChild(addStoryBtn);
+
+                // Add active lives first
+                lives.forEach(l => {
+                    const liveEl = document.createElement("div");
+                    liveEl.className = "story";
+                    liveEl.style.border = "2px solid #ff4757";
+                    const initial = (l.userName || "U").charAt(0).toUpperCase();
+                    liveEl.innerHTML = `
+                        <div class="story-avatar">
+                            ${l.userAvatar ? `<img src="${l.userAvatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : `<div class="story-avatar-inner" style="background:#ff4757">${initial}</div>`}
+                            <div style="position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);background:#ff4757;color:white;font-size:8px;padding:2px 4px;border-radius:4px;font-weight:bold;">LIVE</div>
+                        </div>
+                        <div class="story-name">${escapeHtml(l.userName)}</div>
+                    `;
+                    liveEl.onclick = () => {
+                        window.location.href = `live.html?mode=watch&id=${l.id}`;
+                    };
+                    container.appendChild(liveEl);
+                });
+
+                stories.forEach(s => {
+                    const storyEl = document.createElement("div");
+                    storyEl.className = "story";
+                    const authorName = s.userName || s.authorName || "User";
+                    const authorAvatar = s.userAvatar || s.authorAvatar;
+                    const initial = authorName.charAt(0).toUpperCase();
+                    storyEl.innerHTML = `
+                        <div class="story-avatar">
+                            ${authorAvatar ? `<img src="${authorAvatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : `<div class="story-avatar-inner">${initial}</div>`}
+                        </div>
+                        <div class="story-name">${escapeHtml(authorName)}</div>
+                    `;
+                    storyEl.onclick = () => {
+                        // Support both {image,video} and {data,type} formats
+                        const hasVideo = s.video || (s.type === 'video' && s.data);
+                        const mediaUrl = s.video || s.image || s.data;
+                        const media = hasVideo
+                            ? `<video src="${mediaUrl}" autoplay controls style="max-width:90vw;max-height:80vh;"></video>`
+                            : `<img src="${mediaUrl}" style="max-width:90vw;max-height:80vh;object-fit:contain;">`;
+                        const modal = document.createElement("div");
+                        modal.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;cursor:pointer;";
+                        modal.innerHTML = `
+                            <div style="position:absolute;top:20px;right:20px;font-size:30px;cursor:pointer;" onclick="this.parentElement.remove()">×</div>
+                            <div style="margin-bottom:15px;font-weight:bold;">${escapeHtml(authorName)}'s Story</div>
+                            ${media}
+                        `;
+                        modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+                        document.body.appendChild(modal);
+                    };
+                    container.appendChild(storyEl);
+                });
+            } catch (e) { console.error('Load stories failed', e); }
+        }
+
+        const addStoryBtn = document.querySelector(".add-story");
+        const storyInput = document.createElement("input");
+        storyInput.type = "file";
+        storyInput.accept = "image/*,video/*";
+        storyInput.style.display = "none";
+        document.body.appendChild(storyInput);
+
+        if (addStoryBtn) {
+            addStoryBtn.addEventListener("click", () => storyInput.click());
+        }
+
+        storyInput.addEventListener("change", async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async () => {
+                const mediaData = reader.result;
+                const isVideo = file.type.startsWith("video");
+
+                const payload = {
+                    image: isVideo ? null : mediaData,
+                    video: isVideo ? mediaData : null
+                };
+
+                uploadWithProgress('/api/stories', payload, (percent) => {
+                    const bar = document.getElementById("uploadProgressBar");
+                    const container = document.getElementById("uploadProgressContainer");
+                    container.style.display = "block";
+                    bar.style.width = percent + "%";
+                    if (percent === 100) {
+                        setTimeout(() => { container.style.display = "none"; bar.style.width = "0%"; }, 1000);
+                    }
+                }, () => {
+                    alert("Story uploaded successfully!");
+                    loadStories();
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+
+        loadStories();
+        // --- End Stories Logic ---
+
+        const aiBtn = document.getElementById("aiAssistantBtn");
+
+        async function askDeepSeek(prompt) {
+            try {
+                const response = await fetch('/api/ai/suggest', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt })
+                });
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (err) {
+                console.error("DeepSeek Error:", err);
+                return "Error: AI is currently unavailable. Please run your Node.js server for the best experience.";
+            }
+        }
+
+        if (aiBtn && postTextarea) {
+            aiBtn.addEventListener("click", async () => {
+                const currentText = postTextarea.value.trim();
+                aiBtn.disabled = true;
+                aiBtn.innerHTML = "✨ Thinking...";
+
+                let prompt = "";
+                if (!currentText) {
+                    prompt = "Generate a short, cool, futuristic greeting or a post idea for the People Link social media feed.";
+                } else {
+                    prompt = `Improve this social media post to sound more futuristic and professional: "${currentText}"`;
+                }
+
+                const result = await askDeepSeek(prompt);
+                postTextarea.value = result;
+
+                aiBtn.disabled = false;
+                aiBtn.innerHTML = "✨ AI Magic";
+            });
+        }
+
+        // --- Progress Upload Helper ---
+        let currentUploadXhr = null;
+
+        function uploadWithProgress(url, data, onProgress, onSuccess) {
+            const xhr = new XMLHttpRequest();
+            currentUploadXhr = xhr;
+
+            xhr.open("POST", url, true);
+
+            const token = localStorage.getItem("peoplelink_authToken");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            if (token) xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+
+            xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    onProgress(percent);
+                }
+            };
+
+            xhr.onload = () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    onSuccess(JSON.parse(xhr.responseText));
+                } else {
+                    alert("Upload failed: " + xhr.statusText);
+                    document.getElementById("uploadProgressContainer").style.display = "none";
+                }
+            };
+
+            xhr.onerror = () => {
+                alert("Network error during upload.");
+                document.getElementById("uploadProgressContainer").style.display = "none";
+            };
+
+            xhr.send(JSON.stringify(data));
+        }
+
+        // --- Media Handling Logic ---
+        let selectedMedia = { type: null, data: null };
+        const imageInput = document.getElementById("imageInput");
+        const videoInput = document.getElementById("videoInput");
+        const mediaPreview = document.getElementById("mediaPreview");
+        const previewContent = document.getElementById("previewContent");
+        const removePreview = document.getElementById("removePreview");
+
+        document.getElementById("photoOption").addEventListener("click", () => window.location.href = "editor.html");
+        document.getElementById("videoOption").addEventListener("click", () => window.location.href = "editor.html");
+        document.getElementById("liveOption").addEventListener("click", () => {
+            const liveId = 'live-' + currentUser.id;
+            window.location.href = `live.html?mode=host&id=${liveId}`;
+        });
+
+        function handleFile(file, type) {
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                alert("Media file is too large. Please keep it under 10MB.");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                selectedMedia = { type, data: e.target.result };
+                mediaPreview.style.display = "block";
+                if (type === "image") {
+                    previewContent.innerHTML = `<img src="${e.target.result}">`;
+                } else {
+                    previewContent.innerHTML = `<video src="${e.target.result}" autoplay muted loop></video>`;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        imageInput.addEventListener("change", (e) => handleFile(e.target.files[0], "image"));
+        videoInput.addEventListener("change", (e) => handleFile(e.target.files[0], "video"));
+
+        removePreview.addEventListener("click", () => {
+            selectedMedia = { type: null, data: null };
+            mediaPreview.style.display = "none";
+            previewContent.innerHTML = "";
+            imageInput.value = "";
+            videoInput.value = "";
+        });
+
+        if (postBtn && postTextarea) {
+            postBtn.addEventListener("click", async () => {
+                const content = postTextarea.value.trim();
+                if (!content && !selectedMedia.data) return alert("Please write something or select a file!");
+
+                try {
+                    const postData = {
+                        content,
+                        authorId: currentUser.id,
+                        authorName: currentUser.fullName || currentUser.username,
+                        authorAvatar: currentUser.avatarUrl || null
+                    };
+
+                    if (selectedMedia.type === "image") postData.image = selectedMedia.data;
+                    if (selectedMedia.type === "video") postData.video = selectedMedia.data;
+
+                    const progressBar = document.getElementById("uploadProgressBar");
+                    const progressContainer = document.getElementById("uploadProgressContainer");
+
+                    uploadWithProgress('/api/posts', postData, (percent) => {
+                        progressContainer.style.display = "block";
+                        progressBar.style.width = percent + "%";
+                    }, (result) => {
+                        postTextarea.value = "";
+                        selectedMedia = { type: null, data: null };
+                        mediaPreview.style.display = "none";
+                        progressContainer.style.display = "none";
+                        progressBar.style.width = "0%";
+                        previewContent.innerHTML = "";
+                        imageInput.value = "";
+                        videoInput.value = "";
+                        // Reload posts without full page refresh
+                        loadedPostIds = new Set();
+                        document.querySelectorAll('.post[data-id]').forEach(el => el.remove());
+                        loadPosts();
+                    });
+                } catch (err) {
+                    alert("Failed to post. Is the server running?");
+                }
+            });
+        }
+
+        // Auto-refresh monitor every 60 seconds
+        // setInterval(refreshMonitor, 60000); // Handled by universal monitor
+
+        document.addEventListener("keypress", function (e) {
+            if (e.key === "Enter" && e.target.matches && e.target.matches(".comment-input input")) {
+                const input = e.target;
+                const text = input.value.trim();
+                if (!text) return;
+                const postEl = input.closest(".post");
+                const postId = postEl ? postEl.getAttribute("data-id") : null;
+                if (postId) {
+                    fetch(`/api/posts/${postId}/comments`, {
+                        method: 'POST',
+                        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                        body: JSON.stringify({ text })
+                    }).then(r => r.json()).then(comment => {
+                        const commentsSection = postEl.querySelector('.comments-section');
+                        if (commentsSection) {
+                            const commentEl = document.createElement('div');
+                            commentEl.className = 'comment';
+                            commentEl.innerHTML = `<div class="comment-avatar"></div><div class="comment-content"><div class="comment-header"><span class="comment-user">${escapeHtml(comment.authorName)}</span><span class="comment-time">Just now</span></div><div class="comment-text">${escapeHtml(comment.text)}</div></div>`;
+                            commentsSection.insertBefore(commentEl, commentsSection.querySelector('.add-comment'));
+                        }
+                    }).catch(() => { });
+                }
+                input.value = "";
+            }
+        });
+
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("follow-btn")) {
+                const btn = e.target;
+                const targetId = btn.dataset.userId;
+                if (targetId) {
+                    fetch('/api/follow', {
+                        method: 'POST',
+                        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                        body: JSON.stringify({ targetId })
+                    }).then(r => r.json()).then(data => {
+                        btn.textContent = data.following ? 'Following' : 'Connect';
+                        btn.style.background = data.following ? 'rgba(99,102,241,0.15)' : 'transparent';
+                        // Persist follow state to localStorage
+                        currentUser.following = currentUser.following || [];
+                        if (data.following) {
+                            if (!currentUser.following.includes(targetId)) currentUser.following.push(targetId);
+                        } else {
+                            currentUser.following = currentUser.following.filter(id => id !== targetId);
+                        }
+                        localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+                    }).catch(() => {
+                        btn.textContent = btn.textContent === 'Connect' ? 'Following' : 'Connect';
+                    });
+                } else {
+                    btn.textContent = btn.textContent === 'Connect' ? 'Following' : 'Connect';
+                    btn.style.background = btn.textContent === 'Following' ? 'rgba(99,102,241,0.15)' : 'transparent';
+                }
+            }
+        });
+
+        // --- Dynamic Suggestions (People You May Know) ---
+        async function loadSuggestions() {
+            try {
+                const res = await fetch('/api/users', { headers: getAuthHeaders() });
+                const users = await res.json();
+                const suggestionsContainer = document.querySelector('.suggestions-section');
+                if (!suggestionsContainer || !Array.isArray(users)) return;
+
+                const others = users.filter(u => u.id !== currentUser.id);
+                const myFollowing = currentUser.following || [];
+                const suggestions = others.filter(u => !myFollowing.includes(u.id)).slice(0, 5);
+
+                if (suggestions.length === 0) return;
+
+                const headerHtml = '<div class="section-header"><h3>People You May Know</h3></div>';
+                const itemsHtml = suggestions.map(u => {
+                    const initial = escapeHtml((u.fullName || u.username || 'U').charAt(0).toUpperCase());
+                    const avatarHtml = u.avatarUrl
+                        ? `<img src="${u.avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+                        : initial;
+                    return ``;
+                }).join('');
+
+                suggestionsContainer.innerHTML = headerHtml + itemsHtml;
+            } catch (_) { }
+        }
+        loadSuggestions();
+
+        document.querySelectorAll("[data-nav]").forEach((el) => {
+            el.addEventListener("click", (e) => {
+                const nav = el.getAttribute("data-nav");
+                if (nav === "home") window.location.href = "feed.html";
+                else if (nav === "people") window.location.href = "features.html";
+                else if (nav === "jobs") window.location.href = "about.html#careers";
+                else if (nav === "settings") window.location.href = "settings.html";
+                else if (nav === "messages") window.location.href = "messages.html";
+                else if (nav === "notifications") window.location.href = "notifications.html";
+                else if (nav === "reels") window.location.href = "reels.html";
+            });
+        });
+
+        // Load notification & message badge counts for sidebar
+        async function loadSidebarBadges() {
+            try {
+                const nRes = await fetch('/api/notifications', { headers: getAuthHeaders() });
+                const notifs = await nRes.json();
+                const unread = Array.isArray(notifs) ? notifs.filter(n => !n.read).length : 0;
+                const notifBadge = document.getElementById('sbNotifBadge');
+                if (notifBadge) { notifBadge.textContent = unread; notifBadge.style.display = unread > 0 ? '' : 'none'; }
+                // Update header badge too
+                const headerNotifBadge = document.querySelector('[data-nav="notifications"] .notification-badge');
+                if (headerNotifBadge) headerNotifBadge.textContent = unread || '';
+            } catch (_) { }
+        }
+        loadSidebarBadges();
+        setInterval(loadSidebarBadges, 10000);
+
+        if (userAvatar) {
+            userAvatar.addEventListener("click", () => {
+                window.location.href = "profile.html";
+            });
+        }
+
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("peoplelink_currentUser");
+                localStorage.removeItem("peoplelink_authToken");
+                window.location.href = "login.html";
+            });
+        }
+        // --- Global Search Logic ---
+        const globalSearch = document.getElementById('globalSearch');
+        const searchResults = document.getElementById('searchResults');
+
+        if (globalSearch && searchResults) {
+            let searchTimeout;
+            globalSearch.addEventListener('input', (e) => {
+                const query = e.target.value.trim();
+                if (!query) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(async () => {
+                    try {
+                        const res = await fetch(`/api/users/search?q=${encodeURIComponent(query)}`, { headers: getAuthHeaders() });
+                        const users = await res.json();
+
+                        if (!users || users.length === 0) {
+                            searchResults.innerHTML = '<div style="padding: 15px; color: #aaa; text-align: center;">No users found.</div>';
+                            searchResults.style.display = 'block';
+                            return;
+                        }
+
+                        searchResults.innerHTML = users.map(u => {
+                            const isFollowing = currentUser.following && currentUser.following.includes(u.id);
+                            const initial = escapeHtml((u.full_name || u.username || 'U').charAt(0).toUpperCase());
+                            const avatarHtml = u.avatar_url
+                                ? `<img src="${u.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+                                : initial;
+
+                            return `
+                                <div style="display:flex; align-items:center; justify-content:space-between; padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <div style="display:flex; align-items:center; gap: 10px; cursor: pointer;" onclick="window.location.href='messages.html?open=${u.id}'">
+                                        <div style="width:40px; height:40px; background:#2a2a2e; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold;">
+                                            ${avatarHtml}
+                                        </div>
+                                        <div>
+                                            <div style="font-weight:600; font-size:0.95rem; color:#fff;">${escapeHtml(u.full_name || u.username)}</div>
+                                            <div style="font-size:0.8rem; color:#aaa;">@${escapeHtml(u.username)}</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex; gap:8px;">
+                                        <button class="btn btn-secondary follow-btn" data-user-id="${u.id}" style="padding: 6px 12px; font-size: 0.8rem; ${isFollowing ? 'background:rgba(99,102,241,0.15);' : ''}">
+                                            ${isFollowing ? 'Following' : 'Connect'}
+                                        </button>
+                                        <button class="btn btn-primary" onclick="window.location.href='messages.html?open=${u.id}'" style="padding: 6px 12px; font-size: 0.8rem; background: linear-gradient(135deg, #6366f1, #a855f7); border:none; color:#fff; border-radius:20px; cursor:pointer;">
+                                            Message
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                        searchResults.style.display = 'block';
+                    } catch (err) {
+                        console.error("Search error:", err);
+                    }
+                }, 300);
+            });
+
+            // Hide on outside click
+            document.addEventListener('click', (e) => {
+                if (!globalSearch.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

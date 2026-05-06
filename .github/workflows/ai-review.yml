@@ -1,0 +1,40 @@
+name: 🤖 People Link AI Reviewer
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    types: [opened, synchronize]
+
+jobs:
+  ai-review:
+    name: 🧠 AI Code Analysis
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'ai-review') # Only run if labeled or you can remove this for all PRs
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🤖 Analyze Changes with Gemini
+        shell: bash
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "⚠️ GEMINI_API_KEY not found in secrets. Skipping AI review."
+            exit 0
+          fi
+          
+          # This is a simplified logic. In a real scenario, you'd use a dedicated action or a script.
+          # For People Link, we'll use a custom script to analyze the diff.
+          echo "Analyzing PR #$PR_NUMBER..."
+          # node .github/scripts/ai-review.js

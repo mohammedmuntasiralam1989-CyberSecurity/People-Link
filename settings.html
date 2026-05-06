@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Settings</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Ionicons & FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", "Inter", system-ui, sans-serif; }
+
+        body { background-color: #0a0a0a; color: #eef2ff; line-height: 1.5; min-height: 100vh; }
+
+        .container { max-width: 860px; margin: 0 auto; padding: 0 24px 60px; }
+
+        header {
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 12px 0;
+            position: sticky; top: 0; z-index: 110;
+        }
+        .header-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 800; font-size: 1rem; letter-spacing: 1px; color: #fff; }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-btn { min-width: 40px; height: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); color: #f8fafc; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .nav-btn:hover { background: rgba(255,255,255,0.12); }
+        .nav-btn.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+        .user-avatar-sm { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg,#e0e0e0,#8a8a8a); color: #111; font-size: 0.8rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; }
+        .user-avatar-sm img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ── Page title ── */
+        .page-title { padding: 36px 0 24px; }
+        .page-title h1 { font-size: 1.8rem; font-weight: 700; color: #fff; }
+        .page-title p { color: #6b7280; font-size: 0.9rem; margin-top: 4px; }
+
+        /* ── Cards ── */
+        .card {
+            background: linear-gradient(145deg,#131313,#0c0c0c);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .card h3 { font-size: 1rem; font-weight: 600; color: #e5e7eb; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+        /* ── Profile picture section ── */
+        .avatar-section { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#4f46e5,#7c3aed);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; font-weight: 700; color: #fff;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid rgba(99,102,241,0.5);
+            box-shadow: 0 0 0 4px rgba(99,102,241,0.15);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .avatar-preview:hover { opacity: 0.85; }
+        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.2s;
+            font-size: 0.7rem; color: #fff; font-weight: 600; text-align: center;
+            border-radius: 50%;
+        }
+        .avatar-preview:hover .avatar-overlay { opacity: 1; }
+        #avatarInput { display: none; }
+
+        .avatar-info h4 { font-size: 0.95rem; font-weight: 600; color: #e5e7eb; margin-bottom: 6px; }
+        .avatar-info p { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+        .avatar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+        /* ── Form fields ── */
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 7px; color: #9ca3af; font-size: 0.82rem; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 12px;
+            border: 1px solid #2a2a2e;
+            background: #111;
+            color: #f8fafc;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+            resize: vertical;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        /* ── Buttons ── */
+        .btn { padding: 10px 22px; border-radius: 20px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: 0.2s; }
+        .btn-primary { background: linear-gradient(95deg,#6366f1,#4f46e5); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: #9ca3af; border: 1px solid #2a2a2e; }
+        .btn-outline:hover { border-color: #6366f1; color: #6366f1; }
+        .btn-danger { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+        .btn-danger:hover { background: #ef4444; color: #fff; }
+
+        .action-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+        .hint { color: #4b5563; font-size: 0.78rem; margin-top: 10px; }
+
+        /* ── Toast ── */
+        #toast {
+            position: fixed; bottom: 28px; right: 28px;
+            background: #10b981; color: #fff;
+            padding: 12px 22px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 600;
+            box-shadow: 0 8px 24px rgba(16,185,129,0.4);
+            transform: translateY(80px); opacity: 0;
+            transition: 0.35s cubic-bezier(.34,1.56,.64,1);
+            z-index: 9999;
+        }
+        #toast.show { transform: translateY(0); opacity: 1; }
+
+        @media(max-width:600px){ .form-row { grid-template-columns:1fr; } .avatar-section { flex-direction: column; align-items: flex-start; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo" onclick="window.location.href='feed.html'">
+            <img src="logo.png" alt="People Link Logo" style="height:30px;width:auto;border-radius:6px;vertical-align:middle;margin-right:8px;">
+            PEOPLE LINK
+        </div>
+        <div class="header-actions">
+            <button class="nav-btn" onclick="window.location.href='feed.html'">Home</button>
+            <button class="nav-btn active">Settings</button>
+            <button class="nav-btn btn-danger" id="logoutBtnHeader">Logout</button>
+            <div class="user-avatar-sm" id="userAvatarHeader">U</div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="page-title">
+        <h1>Account Settings</h1>
+        <p>Manage your profile, privacy and account preferences.</p>
+    </div>
+
+    <!-- ── Profile Picture Card ── -->
+    <div class="card">
+        <h3>🖼️ Profile Picture</h3>
+        <div class="avatar-section">
+            <div class="avatar-preview" id="avatarPreview" onclick="document.getElementById('avatarInput').click()">
+                <span id="avatarLetter">U</span>
+                <div class="avatar-overlay">📷 Change</div>
+            </div>
+            <input type="file" id="avatarInput" accept="image/*">
+            <div class="avatar-info">
+                <h4>Profile Photo</h4>
+                <p>JPG, PNG or GIF. Max 5MB. Recommended size 400×400px.</p>
+                <div class="avatar-actions">
+                    <button class="btn btn-primary" onclick="document.getElementById('avatarInput').click()">📷 Upload Photo</button>
+                    <button class="btn btn-outline" id="removeAvatarBtn">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Personal Info Card ── -->
+    <div class="card">
+        <h3>👤 Personal Information</h3>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input id="fullName" type="text" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" type="text" placeholder="@yourusername">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea id="bio" rows="3" placeholder="Tell people about yourself..."></textarea>
+        </div>
+        <div class="action-row">
+            <button class="btn btn-primary" id="saveInfoBtn">💾 Save Changes</button>
+        </div>
+        <p class="hint">Changes are saved locally to your session profile.</p>
+    </div>
+
+    <!-- ── Password Card ── -->
+    <div class="card">
+        <h3>🔒 Change Password</h3>
+        <div class="form-group">
+            <label for="currentPass">Current Password</label>
+            <input id="currentPass" type="password" placeholder="Enter current password">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="newPass">New Password</label>
+                <input id="newPass" type="password" placeholder="New password">
+            </div>
+            <div class="form-group">
+                <label for="confirmPass">Confirm Password</label>
+                <input id="confirmPass" type="password" placeholder="Repeat new password">
+            </div>
+        </div>
+        <div class="action-row">
+            <button class="btn btn-primary" id="savePassBtn">🔑 Update Password</button>
+        </div>
+    </div>
+
+    <!-- ── Danger Zone ── -->
+    <div class="card">
+        <h3>⚠️ Account Actions</h3>
+        <div class="action-row">
+            <button class="btn btn-danger" id="logoutBtnMain">Logout</button>
+        </div>
+        <p class="hint">Logging out clears your current session from this device.</p>
+    </div>
+    </div>
+
+    <footer class="premium-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Logo">
+                        <span>People Link</span>
+                    </div>
+                    <p>Connecting the world through meaningful relationships and professional growth.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links-group">
+                    <div class="footer-col">
+                        <h4>Platform</h4>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="features.html">Features</a></li>
+                            <li><a href="about.html#careers">Careers</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="profile.html">Profiles</a></li>
+                            <li><a href="features.html">Connections</a></li>
+                            <li><a href="features.html">Groups</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="help.html">Help Center</a></li>
+                            <li><a href="settings.html">Guidelines</a></li>
+                            <li><a href="privacy.html">Privacy Policy</a></li>
+                            <li><a href="terms.html">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 People Link. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="settings.html">Settings</a>
+                    <a href="feed.html">Feed</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast">✅ Saved successfully!</div>
+
+<script>
+(function initSettings() {
+    let currentUser = null;
+    try {
+        const raw = localStorage.getItem("peoplelink_currentUser");
+        currentUser = raw ? JSON.parse(raw) : null;
+    } catch (_) {}
+    if (!currentUser) { window.location.href = "login.html"; return; }
+
+    function getAuthHeaders(extra = {}) {
+        const token = localStorage.getItem("peoplelink_authToken");
+        return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+    }
+
+    function syncFieldsFromCurrentUser() {
+        document.getElementById("fullName").value = currentUser.fullName || "";
+        document.getElementById("email").value = currentUser.email || "";
+        document.getElementById("username").value = currentUser.username || "";
+        document.getElementById("bio").value = currentUser.bio || "";
+        applyAvatar(currentUser.avatarUrl || null);
+    }
+
+    function restoreCurrentUser(snapshot) {
+        currentUser = { ...snapshot };
+        localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+        syncFieldsFromCurrentUser();
+    }
+
+    function getStoredUsersSnapshot() {
+        return localStorage.getItem("peoplelink_users");
+    }
+
+    function restoreStoredUsersSnapshot(snapshot) {
+        if (snapshot === null) {
+            localStorage.removeItem("peoplelink_users");
+            return;
+        }
+        localStorage.setItem("peoplelink_users", snapshot);
+    }
+
+    async function saveProfileToServer() {
+        const token = localStorage.getItem("peoplelink_authToken");
+        if (!token) return currentUser;
+
+        const response = await fetch("/api/me", {
+            method: "PATCH",
+            headers: getAuthHeaders({ "Content-Type": "application/json" }),
+            body: JSON.stringify({
+                fullName: currentUser.fullName,
+                email: currentUser.email,
+                username: currentUser.username,
+                bio: currentUser.bio || "",
+                avatarUrl: currentUser.avatarUrl || null
+            })
+        });
+
+        const result = await response.json();
+        if (response.status === 401) {
+            localStorage.removeItem("peoplelink_currentUser");
+            localStorage.removeItem("peoplelink_authToken");
+            window.location.href = "login.html";
+            throw new Error("Session expired");
+        }
+        if (!response.ok) throw new Error(result.message || "Profile update failed");
+        currentUser = result.user;
+        localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+        return currentUser;
+    }
+
+    // ── Populate fields ──
+
+    // ── Avatar helpers ──
+    // Populate fields and avatar preview
+    const avatarPreview = document.getElementById("avatarPreview");
+    const avatarLetter = document.getElementById("avatarLetter");
+    const avatarInput = document.getElementById("avatarInput");
+    const userAvatarHeader = document.getElementById("userAvatarHeader");
+
+    function applyAvatar(src) {
+        if (src) {
+            avatarPreview.innerHTML = `<img src="${src}" alt="Profile"><div class="avatar-overlay">📷 Change</div>`;
+            if (userAvatarHeader) {
+                userAvatarHeader.innerHTML = `<img src="${src}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+            }
+        } else {
+            const name = currentUser.fullName || currentUser.username || "U";
+            avatarPreview.innerHTML = `<span id="avatarLetter">${name.charAt(0).toUpperCase()}</span><div class="avatar-overlay">📷 Change</div>`;
+            if (userAvatarHeader) userAvatarHeader.textContent = name.charAt(0).toUpperCase();
+        }
+    }
+
+    // â”€â”€ Populate fields â”€â”€
+    syncFieldsFromCurrentUser();
+
+    // Upload new avatar
+    avatarInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) { showToast("❌ File too large! Max 5MB.", "#ef4444"); return; }
+        const previousUser = { ...currentUser };
+        const previousUsersSnapshot = getStoredUsersSnapshot();
+        const reader = new FileReader();
+        reader.onload = async function (e) {
+            const dataUrl = e.target.result;
+            currentUser.avatarUrl = dataUrl;
+            localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+            // ── Sync avatar to users list ──
+            try {
+                const users = JSON.parse(localStorage.getItem("peoplelink_users") || "[]");
+                const idx = users.findIndex(u => u.email === currentUser.email || u.username === currentUser.username);
+                if (idx !== -1) { users[idx].avatarUrl = dataUrl; localStorage.setItem("peoplelink_users", JSON.stringify(users)); }
+            } catch (_) {}
+            applyAvatar(dataUrl);
+            try {
+                await saveProfileToServer();
+            } catch (err) {
+                restoreCurrentUser(previousUser);
+                restoreStoredUsersSnapshot(previousUsersSnapshot);
+                showToast(err.message, "#ef4444");
+                return;
+            }
+            showToast("✅ Profile picture updated!");
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Remove avatar
+    document.getElementById("removeAvatarBtn").addEventListener("click", async function () {
+        const previousUser = { ...currentUser };
+        const previousUsersSnapshot = getStoredUsersSnapshot();
+        currentUser.avatarUrl = null;
+        localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+        // ── Sync removal to users list ──
+        try {
+            const users = JSON.parse(localStorage.getItem("peoplelink_users") || "[]");
+            const idx = users.findIndex(u => u.email === currentUser.email || u.username === currentUser.username);
+            if (idx !== -1) { users[idx].avatarUrl = null; localStorage.setItem("peoplelink_users", JSON.stringify(users)); }
+        } catch (_) {}
+        applyAvatar(null);
+        try {
+            await saveProfileToServer();
+        } catch (err) {
+            restoreCurrentUser(previousUser);
+            restoreStoredUsersSnapshot(previousUsersSnapshot);
+            showToast(err.message, "#ef4444");
+            return;
+        }
+        showToast("🗑️ Profile picture removed.");
+    });
+
+    // Also open file picker when clicking preview
+    avatarPreview.addEventListener("click", () => avatarInput.click());
+
+    // ── Save personal info ──
+    document.getElementById("saveInfoBtn").addEventListener("click", async () => {
+        const previousUser = { ...currentUser };
+        currentUser.fullName = document.getElementById("fullName").value.trim();
+        currentUser.email = document.getElementById("email").value.trim().toLowerCase();
+        currentUser.username = document.getElementById("username").value.trim();
+        currentUser.bio = document.getElementById("bio").value.trim();
+        localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+        try {
+            await saveProfileToServer();
+        } catch (err) {
+            restoreCurrentUser(previousUser);
+            showToast(err.message, "#ef4444");
+            return;
+        }
+        showToast("✅ Profile info saved!");
+    });
+
+    // ── Change password ──
+    document.getElementById("savePassBtn").addEventListener("click", async () => {
+        const curP = document.getElementById("currentPass").value;
+        const np = document.getElementById("newPass").value;
+        const cp = document.getElementById("confirmPass").value;
+        const token = localStorage.getItem("peoplelink_authToken");
+        if (token) {
+            if (!curP) { showToast("Enter your current password.", "#ef4444"); return; }
+            if (!np) { showToast("Enter a new password.", "#ef4444"); return; }
+            if (np.length < 6) { showToast("Password must be at least 6 characters.", "#ef4444"); return; }
+            if (np !== cp) { showToast("Passwords do not match.", "#ef4444"); return; }
+
+            try {
+                const response = await fetch("/api/change-password", {
+                    method: "POST",
+                    headers: getAuthHeaders({ "Content-Type": "application/json" }),
+                    body: JSON.stringify({ currentPassword: curP, newPassword: np })
+                });
+                const result = await response.json();
+                if (response.status === 401) {
+                    localStorage.removeItem("peoplelink_currentUser");
+                    localStorage.removeItem("peoplelink_authToken");
+                    window.location.href = "login.html";
+                    return;
+                }
+                if (!response.ok) throw new Error(result.message || "Password update failed");
+
+                document.getElementById("currentPass").value = "";
+                document.getElementById("newPass").value = "";
+                document.getElementById("confirmPass").value = "";
+                showToast("Password updated! Use new password next time you login.");
+            } catch (err) {
+                showToast(err.message, "#ef4444");
+            }
+            return;
+        }
+        if (!curP) { showToast("❌ Enter your current password.", "#ef4444"); return; }
+        if (curP !== currentUser.password) { showToast("❌ Current password is incorrect.", "#ef4444"); return; }
+        if (!np) { showToast("❌ Enter a new password.", "#ef4444"); return; }
+        if (np.length < 6) { showToast("❌ Password must be at least 6 characters.", "#ef4444"); return; }
+        if (np !== cp) { showToast("❌ Passwords do not match.", "#ef4444"); return; }
+
+        // Update currentUser
+        currentUser.password = np;
+        localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+
+        // ALSO update in the users list so login works with new password
+        try {
+            const users = JSON.parse(localStorage.getItem("peoplelink_users") || "[]");
+            const idx = users.findIndex(u =>
+                u.email === currentUser.email || u.username === currentUser.username
+            );
+            if (idx !== -1) {
+                users[idx].password = np;
+                localStorage.setItem("peoplelink_users", JSON.stringify(users));
+            }
+        } catch (_) {}
+
+        document.getElementById("currentPass").value = "";
+        document.getElementById("newPass").value = "";
+        document.getElementById("confirmPass").value = "";
+        showToast("✅ Password updated! Use new password next time you login.");
+    });
+
+    // ── Logout ──
+    function doLogout() {
+        localStorage.removeItem("peoplelink_currentUser");
+        localStorage.removeItem("peoplelink_authToken");
+        window.location.href = "login.html";
+    }
+    document.getElementById("logoutBtnHeader").addEventListener("click", doLogout);
+    document.getElementById("logoutBtnMain").addEventListener("click", doLogout);
+
+    // ── Toast helper ──
+    function showToast(msg, bg = "#10b981") {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.background = bg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3000);
+    }
+})();
+</script>
+</body>
+</html>

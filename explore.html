@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Explore the Vision</title>
+    <link rel="stylesheet" href="creative.css">
+    <style>
+        /* Additional header for navigation */
+        .creative-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+        }
+        .creative-nav a {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+        .creative-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="creative-body">
+    <div class="creative-nav">
+        <a href="index.html">← Back to Home</a>
+        <a href="signup.html">Join Us</a>
+    </div>
+
+    <div class="scroll-container">
+        <div class="page">
+            <h1 class="page__title">OUR VISION</h1>
+            
+            <svg class="arrow" viewBox="0 0 24 24">
+                <path class="a1" d="M7 10l5 5 5-5"/>
+                <path class="a2" d="M7 15l5 5 5-5"/>
+            </svg>
+
+            <div class="content content--center">
+                <!-- Item 1 -->
+                <div class="content__item">
+                    <div class="content__item-imgwrap">
+                        <div class="content__item-img" style="background-image: url('art1.png');"></div>
+                    </div>
+                    <div class="content__item-number">01</div>
+                    <h2 class="content__item-title">CONNECTION</h2>
+                    <p class="content__item-description">
+                        We believe that true human connection is the foundation of a healthy society. People Link is designed to bridge the gaps between us.
+                    </p>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="content__item content__item--expand">
+                    <div class="content__item-imgwrap">
+                        <div class="content__item-img" style="background-image: url('art2.png');"></div>
+                    </div>
+                    <div class="content__item-number">02</div>
+                    <h2 class="content__item-title">PRIVACY</h2>
+                    <p class="content__item-description">
+                        Your data is sacred. We've built an ecosystem where you can share and connect without being the product.
+                    </p>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="content__item">
+                    <div class="content__item-imgwrap">
+                        <div class="content__item-img" style="background-image: url('art3.png');"></div>
+                    </div>
+                    <div class="content__item-number">03</div>
+                    <h2 class="content__item-title">FUTURE</h2>
+                    <p class="content__item-description">
+                        The future of social networking is decentralized, ethical, and beautiful. Welcome to the new era.
+                    </p>
+                </div>
+            </div>
+
+            <div class="credits">
+                <a href="signup.html" style="font-size: 2rem; font-family: 'Righteous', cursive;">GET STARTED</a>
+            </div>
+        </div>
+    </div>
+
+    <button class="scrollToTopBtn" id="backToTop">
+        <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script>
+        // Scroll to top button logic
+        const scrollToTopBtn = document.getElementById("backToTop");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                scrollToTopBtn.classList.add("showBtn");
+            } else {
+                scrollToTopBtn.classList.remove("showBtn");
+            }
+        };
+        scrollToTopBtn.onclick = function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        };
+    </script>
+</body>
+</html>

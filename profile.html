@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - My Profile</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Ionicons & FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", "Inter", system-ui, sans-serif; }
+
+        body { background-color: #0a0a0a; color: #eef2ff; min-height: 100vh; }
+
+        /* ── Header ── */
+        header {
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 12px 0;
+            position: sticky; top: 0; z-index: 110;
+        }
+        .header-inner { max-width: 1000px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 800; font-size: 1rem; letter-spacing: 1px; color: #fff; text-decoration: none; }
+        .logo img { height: 28px; border-radius: 6px; }
+        .nav-btn { min-width: 40px; height: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); color: #f8fafc; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; }
+        .nav-btn:hover { background: rgba(255,255,255,0.12); }
+        .nav-btn.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+
+        /* ── Container ── */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+
+        /* ── Cover + Avatar ── */
+        .cover-section { position: relative; margin-top: 24px; }
+        .cover {
+            height: 240px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4c1d95 70%, #1e1b4b 100%);
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-premium);
+        }
+        .cover::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+        }
+
+        .profile-avatar-wrap {
+            position: absolute;
+            bottom: -60px;
+            left: 40px;
+        }
+        .profile-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 6px solid #0a0a0a;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem; font-weight: 800; color: #fff;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+        /* ── Profile info ── */
+        .profile-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 80px 10px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .profile-name { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+        .profile-handle { color: var(--accent); font-size: 1rem; margin-top: 4px; font-weight: 600; }
+        .profile-bio { color: var(--text-muted); font-size: 0.95rem; margin-top: 12px; max-width: 500px; line-height: 1.6; }
+
+        .edit-btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .edit-btn:hover {
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ── Stats bar ── */
+        .stats-bar {
+            display: flex;
+            gap: 48px;
+            padding: 32px 10px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+        .stat { text-align: left; }
+        .stat-num { font-size: 1.5rem; font-weight: 800; color: #fff; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: var(--shadow-premium);
+        }
+        .card h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+
+        /* ── Layout ── */
+        .layout { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+
+        /* ── Info list ── */
+        .info-item { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: var(--text-muted); }
+        .info-item:last-child { border-bottom: none; }
+        .info-icon { font-size: 1.1rem; color: var(--accent); }
+        .info-value { color: #e5e7eb; font-weight: 500; }
+
+        /* ── Posts ── */
+        .activity-post {
+            padding: 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 16px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .activity-post:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.01);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .activity-title { font-weight: 600; color: #fff; font-size: 0.95rem; line-height: 1.5; }
+        .activity-sub { color: var(--text-muted); font-size: 0.8rem; margin-top: 10px; display: flex; gap: 12px; }
+
+        /* ── Empty state ── */
+        .empty-state { text-align: center; padding: 60px 0; color: var(--text-muted); }
+        .empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+
+        /* RESPONSIVE LAYOUT (Mobile, Tablet, Desktop) */
+
+        /* TABLET (768px to 1024px) */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            .layout { grid-template-columns: 240px 1fr; gap: 15px; }
+            .container { padding-top: 80px; }
+            .profile-info-row { flex-direction: column; align-items: flex-start; gap: 15px; }
+        }
+
+        /* MOBILE (Below 768px) */
+        @media (max-width: 767px) {
+            header { display: none; } /* Hide header, use bottom nav */
+            .container { padding: 10px; }
+            .cover-section { border-radius: 12px; margin-bottom: 50px; }
+            .profile-avatar-wrap { left: 50%; transform: translateX(-50%); }
+            .profile-info-row { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
+            .stats-bar { gap: 10px; padding: 15px 10px; }
+            .layout { grid-template-columns: 1fr; }
+            body { padding-bottom: 80px; }
+
+            .mobile-bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                background: rgba(10,10,10,0.98);
+                backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255,255,255,0.06);
+                padding: 10px 30px;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 999;
+                padding-bottom: calc(10px + env(safe-area-inset-bottom));
+            }
+            .mobile-nav-item { color: #71717a; font-size: 1.4rem; text-decoration: none; transition: 0.2s; }
+            .mobile-nav-item.active { color: #fff; }
+        }
+        @media (min-width: 768px) {
+            .mobile-bottom-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="mobile-bottom-nav">
+    <a href="feed.html" class="mobile-nav-item">🏠</a>
+    <a href="reels.html" class="mobile-nav-item">📱</a>
+    <a href="editor.html" class="mobile-nav-item" style="font-size: 1.8rem; color: #6366f1; transform: translateY(-5px);">⊕</a>
+    <a href="messages.html" class="mobile-nav-item">💬</a>
+    <a href="profile.html" class="mobile-nav-item active">👤</a>
+</div>
+
+<header>
+    <div class="header-inner">
+        <a class="logo" href="feed.html">
+            <img src="logo.png" alt="People Link">
+            PEOPLE LINK
+        </a>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a class="nav-btn" href="feed.html">Feed</a>
+            <a class="nav-btn active" href="profile.html">Profile</a>
+            <a class="nav-btn" href="settings.html">Settings</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Cover + Avatar -->
+    <div class="cover-section">
+        <div class="cover"></div>
+        <div class="profile-avatar-wrap">
+            <div class="profile-avatar" id="profileAvatar">U</div>
+        </div>
+    </div>
+
+    <!-- Name + Edit -->
+    <div class="profile-info-row">
+        <div>
+            <div class="profile-name" id="profileName">User Name</div>
+            <div class="profile-handle" id="profileHandle">@username</div>
+            <div class="profile-bio" id="profileBio"></div>
+        </div>
+        <a class="edit-btn" href="settings.html">✏️ Edit Profile</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+        <div class="stat"><div class="stat-num" id="statPosts">0</div><div class="stat-label">Posts</div></div>
+        <div class="stat"><div class="stat-num">—</div><div class="stat-label">Connections</div></div>
+        <div class="stat"><div class="stat-num">—</div><div class="stat-label">Followers</div></div>
+    </div>
+
+    <!-- Layout -->
+    <div class="layout">
+        <!-- Left: Details -->
+        <div class="card">
+            <h3>📋 About</h3>
+            <div class="info-item"><span class="info-icon">✉️</span><span class="info-value" id="infoEmail">—</span></div>
+            <div class="info-item"><span class="info-icon">👤</span><span class="info-value" id="infoUsername">—</span></div>
+            <div class="info-item"><span class="info-icon">📅</span><span class="info-value" id="infoJoined">—</span></div>
+        </div>
+
+        <!-- Right: Posts -->
+        <div class="card">
+            <h3 id="postsSectionTitle">📝 Posts</h3>
+            <div id="myPostsList">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    Loading your posts...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(async function loadProfile() {
+    let currentUser = null;
+    try { currentUser = JSON.parse(localStorage.getItem("peoplelink_currentUser") || "null"); } catch (_) {}
+    if (!currentUser) { window.location.href = "login.html"; return; }
+
+    function getAuthHeaders(extra = {}) {
+        const token = localStorage.getItem("peoplelink_authToken");
+        return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+    }
+
+    function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+        }[char]));
+    }
+
+    // Check if viewing another user
+    const params = new URLSearchParams(window.location.search);
+    const viewUserId = params.get("user");
+    let user = currentUser;
+    let isOwnProfile = true;
+
+    if (viewUserId && viewUserId !== currentUser.id) {
+        try {
+            const res = await fetch(`/api/users/${viewUserId}`);
+            if (res.ok) {
+                user = await res.json();
+                isOwnProfile = false;
+            }
+        } catch(_) {}
+    }
+
+    // Avatar
+    const avatarEl = document.getElementById("profileAvatar");
+    if (user.avatarUrl) {
+        avatarEl.innerHTML = `<img src="${user.avatarUrl}" alt="Profile">`;
+    } else {
+        const n = user.fullName || user.username || "U";
+        avatarEl.textContent = n.charAt(0).toUpperCase();
+    }
+
+    // Name / handle / bio
+    const name = user.fullName || user.username || "User Name";
+    document.getElementById("profileName").textContent = name;
+    document.getElementById("profileHandle").textContent = user.username ? `@${user.username}` : "";
+    const bioEl = document.getElementById("profileBio");
+    if (user.bio) bioEl.textContent = user.bio; else bioEl.style.display = "none";
+
+    // About
+    document.getElementById("infoEmail").textContent = isOwnProfile ? (user.email || "—") : "Hidden";
+    document.getElementById("infoUsername").textContent = user.username ? `@${user.username}` : "—";
+    if (user.createdAt) {
+        const d = new Date(user.createdAt);
+        document.getElementById("infoJoined").textContent = "Joined " + d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    }
+
+    // Stats
+    const followers = (user.followers || []).length;
+    const following = (user.following || []).length;
+    document.querySelectorAll(".stat")[1].querySelector(".stat-num").textContent = followers;
+    document.querySelectorAll(".stat")[2].querySelector(".stat-num").textContent = following;
+    document.querySelectorAll(".stat")[1].querySelector(".stat-label").textContent = "FOLLOWERS";
+    document.querySelectorAll(".stat")[2].querySelector(".stat-label").textContent = "FOLLOWING";
+
+    // Edit button - show follow/message for other users
+    const editBtn = document.querySelector(".edit-btn");
+    if (!isOwnProfile && editBtn) {
+        const isFollowing = (currentUser.following || []).includes(user.id);
+        editBtn.href = "#";
+        editBtn.innerHTML = isFollowing ? "✓ Following" : "➕ Follow";
+        editBtn.style.background = isFollowing ? "rgba(99,102,241,0.15)" : "";
+
+        // Add message button
+        const msgBtn = document.createElement("a");
+        msgBtn.className = "edit-btn";
+        msgBtn.href = `messages.html?open=${user.id}`;
+        msgBtn.textContent = "💬 Message";
+        msgBtn.style.marginLeft = "8px";
+        editBtn.parentNode.appendChild(msgBtn);
+
+        editBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch('/api/follow', {
+                    method: 'POST',
+                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                    body: JSON.stringify({ targetId: user.id })
+                });
+                const data = await res.json();
+                editBtn.innerHTML = data.following ? "✓ Following" : "➕ Follow";
+                editBtn.style.background = data.following ? "rgba(99,102,241,0.15)" : "";
+                // Update local user
+                currentUser.following = currentUser.following || [];
+                if (data.following) {
+                    if (!currentUser.following.includes(user.id)) currentUser.following.push(user.id);
+                } else {
+                    currentUser.following = currentUser.following.filter(id => id !== user.id);
+                }
+                localStorage.setItem("peoplelink_currentUser", JSON.stringify(currentUser));
+            } catch(err) { alert("Failed to follow"); }
+        });
+    }
+
+    // Posts
+    try {
+        const res = await fetch("/api/posts");
+        const posts = await res.json();
+        
+        // Use author_id (from DB) or fallback to name matching
+        const myPosts = posts.filter(p => p.author_id === user.id || p.author_id === viewUserId || p.authorName === name);
+        document.getElementById("statPosts").textContent = myPosts.length;
+        document.getElementById("postsSectionTitle").textContent = isOwnProfile ? "📝 My Posts" : `📝 ${name}'s Posts`;
+
+        const listEl = document.getElementById("myPostsList");
+        if (myPosts.length === 0) {
+            listEl.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div>${isOwnProfile ? "You haven't posted anything yet." : "No posts yet."}</div>`;
+            return;
+        }
+        listEl.innerHTML = myPosts.map(p => {
+            const date = new Date(p.created_at || p.createdAt || Date.now());
+            const timeStr = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+            const preview = p.content ? p.content.substring(0, 120) + (p.content.length > 120 ? "…" : "") : "(Media post)";
+            const likes = p.likes || 0;
+            const commentsCount = p.comments ? p.comments.length : 0;
+            return `<div class="activity-post">
+                <div class="activity-title">${escapeHtml(preview)}</div>
+                <div class="activity-sub">${timeStr} ${p.image ? "· 📷 Photo" : p.video ? "· 🎥 Video" : ""} · ❤️ ${likes} · 💬 ${commentsCount}</div>
+            </div>`;
+        }).join("");
+    } catch(err) {
+        console.error("Posts fetch error:", err);
+        document.getElementById("myPostsList").innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div>No posts found.</div>`;
+    }
+})();
+</script>
+</body>
+</html>

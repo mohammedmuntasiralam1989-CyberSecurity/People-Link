@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Login</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Righteous&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <!-- 3D Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+    <script src="ai-monitor.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('bg-auth.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .logo {
+            font-family: 'Righteous', cursive;
+            font-size: 28px;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            perspective: 1000px;
+        }
+
+        .login-card {
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 18px;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .input-wrapper i {
+            color: var(--text-muted);
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .input-wrapper input {
+            background: transparent;
+            border: none;
+            padding: 16px 0;
+            width: 100%;
+            color: #fff;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .forgot-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .forgot-row a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+            transition: var(--transition-smooth);
+        }
+
+        .forgot-row a:hover {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border: none;
+            padding: 16px;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            margin-top: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-glass), transparent);
+        }
+
+        .social-login {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 50px;
+            padding: 12px 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-link a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            margin-left: 5px;
+            transition: var(--transition-smooth);
+        }
+
+        .signup-link a:hover {
+            color: var(--accent);
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            color: #fff;
+            z-index: 2000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="login-card glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+        <div class="logo">
+            <img src="logo.png" alt="People Link Logo" style="height: 45px; width: auto; margin-right: 15px; border-radius: 10px;">
+            PEOPLE LINK
+        </div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Email or Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="loginIdentifier" placeholder="Enter email or username" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required>
+                </div>
+            </div>
+
+            <div class="forgot-row">
+                <a href="help.html">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Log In</button>
+        </form>
+
+        <div class="divider">
+            <div class="divider-line"></div>
+            <span>OR</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="social-login">
+            <div class="social-btn" id="googleLoginBtn">
+                <i class="fab fa-google"></i> Google
+            </div>
+            <div class="social-btn" id="facebookLoginBtn">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </div>
+        </div>
+
+        <div class="signup-link">
+            Don't have an account? <a href="signup.html">Sign up now</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showMessage(msg) {
+        const existing = document.querySelector(".toast-msg");
+        if (existing) existing.remove();
+        const div = document.createElement("div");
+        div.className = "toast-msg";
+        div.innerText = msg;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 2500);
+    }
+
+    function getStoredUsers() {
+        try {
+            const raw = localStorage.getItem("peoplelink_users");
+            const users = raw ? JSON.parse(raw) : [];
+            return Array.isArray(users) ? users : [];
+        } catch (_err) {
+            return [];
+        }
+    }
+
+    function setCurrentUser(user) {
+        const { password, ...safeUser } = user;
+        localStorage.setItem("peoplelink_currentUser", JSON.stringify(safeUser));
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const identifier = document.getElementById("loginIdentifier").value.trim().toLowerCase();
+        const password = document.getElementById("loginPassword").value;
+
+        if (!identifier || !password) {
+            showMessage("Please fill in both fields.");
+            return;
+        }
+
+        // ── First try server ──
+        let serverOk = false;
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier, password })
+            });
+            const result = await response.json();
+
+            if (response.ok) {
+                const localUsers = getStoredUsers();
+                const localUser = localUsers.find(u =>
+                    u.email?.toLowerCase() === identifier || u.username?.toLowerCase() === identifier
+                );
+                const merged = { ...result.user, ...(localUser ? { avatarUrl: localUser.avatarUrl } : {}) };
+                if (result.token) localStorage.setItem("peoplelink_authToken", result.token);
+                localStorage.setItem("peoplelink_currentUser", JSON.stringify(merged));
+                showMessage(`Welcome back, ${merged.fullName || merged.username}! Redirecting...`);
+                setTimeout(() => { window.location.href = "feed.html"; }, 900);
+                serverOk = true;
+            }
+        } catch (_) { /* Server offline */ }
+
+        if (serverOk) return;
+
+        // ── Fallback: check localStorage users (works after password change in Settings) ──
+        const users = getStoredUsers();
+        const matched = users.find(u => {
+            const emailMatch = u.email?.toLowerCase() === identifier;
+            const userMatch  = u.username?.toLowerCase() === identifier;
+            return (emailMatch || userMatch) && u.password === password;
+        });
+
+        if (matched) {
+            localStorage.removeItem("peoplelink_authToken");
+            localStorage.setItem("peoplelink_currentUser", JSON.stringify(matched));
+            showMessage(`Welcome back, ${matched.fullName || matched.username}! Redirecting...`);
+            setTimeout(() => { window.location.href = "feed.html"; }, 900);
+        } else {
+            const exists = users.find(u =>
+                u.email?.toLowerCase() === identifier || u.username?.toLowerCase() === identifier
+            );
+            showMessage(exists ? "Incorrect password." : "Account not found.");
+        }
+    });
+
+    document.getElementById("googleLoginBtn").addEventListener("click", () => {
+        showMessage("Google login demo. Backend required for real auth.");
+    });
+
+    document.getElementById("facebookLoginBtn").addEventListener("click", () => {
+        showMessage("Facebook login demo. Backend required for real auth.");
+    });
+</script>
+</body>
+</html>

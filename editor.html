@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Studio Editor</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Ionicons & FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", "Inter", system-ui, sans-serif; }
+        body { background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: rgba(10,10,10,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 1rem; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo img { height: 28px; border-radius: 6px; }
+        
+        .main-editor { flex: 1; display: grid; grid-template-columns: 1fr 350px; height: calc(100vh - 60px); }
+        .preview-area { background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 20px; }
+        .media-preview { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; transition: filter 0.3s; }
+        
+        .upload-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #111; z-index: 10; gap: 20px; }
+        .upload-btn { padding: 14px 28px; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; border: none; border-radius: 24px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 24px rgba(99,102,241,0.3); }
+        .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(99,102,241,0.5); }
+        
+        .tools-panel { background: #151515; border-left: 1px solid rgba(255,255,255,0.06); padding: 24px; display: flex; flex-direction: column; gap: 24px; overflow-y: auto; }
+        .tool-section { display: flex; flex-direction: column; gap: 12px; }
+        .tool-title { font-size: 0.85rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .filter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .filter-btn { background: #222; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 0; font-size: 0.8rem; cursor: pointer; color: #fff; transition: 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: #6366f1; border-color: #6366f1; }
+        
+        .music-selector { display: flex; align-items: center; justify-content: center; gap: 10px; background: #222; padding: 12px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); cursor: pointer; transition: 0.2s; }
+        .music-selector:hover { border-color: #6366f1; background: #2a2a2a; }
+        .music-info { font-size: 0.85rem; color: #ccc; }
+        
+        .caption-input { background: #222; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; color: #fff; font-size: 0.95rem; resize: none; min-height: 120px; outline: none; }
+        .caption-input:focus { border-color: #6366f1; }
+        
+        .publish-btn { margin-top: auto; padding: 16px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 24px rgba(16,185,129,0.3); }
+        .publish-btn:hover { transform: translateY(-2px); }
+        .publish-btn:disabled { background: #444; color: #888; box-shadow: none; cursor: not-allowed; transform: none; }
+
+        @media(max-width: 800px) {
+            .main-editor { grid-template-columns: 1fr; grid-template-rows: 50vh 1fr; height: auto; min-height: calc(100vh - 60px); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a class="logo" href="feed.html"><img src="logo.png" alt="People Link">PEOPLE LINK Studio</a>
+    <a href="feed.html" style="color:#ccc; text-decoration:none; font-size:0.9rem;">✕ Cancel</a>
+</header>
+
+<div class="main-editor">
+    <div class="preview-area">
+        <div class="upload-overlay" id="uploadOverlay">
+            <div style="font-size: 4rem;">✨</div>
+            <h2>Create a Post, Story, or Reel</h2>
+            <button class="btn btn-secondary upload-btn" onclick="document.getElementById('mediaInput').click()">Select Photo or Video</button>
+            <input type="file" id="mediaInput" style="display:none" accept="image/*,video/*">
+        </div>
+        <img id="imagePreview" class="media-preview" style="display:none">
+        <video id="videoPreview" class="media-preview" style="display:none" loop autoplay muted></video>
+        <audio id="bgMusicPlayer" loop style="display:none;"></audio>
+    </div>
+
+    <div class="tools-panel">
+        <div class="tool-section">
+            <div class="tool-title">Write Caption</div>
+            <textarea id="captionInput" class="caption-input" placeholder="What's on your mind? ..."></textarea>
+        </div>
+
+        <div class="tool-section">
+            <div class="tool-title">Filters & Effects</div>
+            <div class="filter-grid" id="filterGrid">
+                <button class="filter-btn active" data-filter="none">Normal</button>
+                <button class="filter-btn" data-filter="grayscale(100%)">B & W</button>
+                <button class="filter-btn" data-filter="sepia(80%)">Vintage</button>
+                <button class="filter-btn" data-filter="contrast(150%) saturate(150%)">Vibrant</button>
+                <button class="filter-btn" data-filter="hue-rotate(90deg)">Neon</button>
+                <button class="filter-btn" data-filter="blur(2px)">Dreamy</button>
+            </div>
+        </div>
+
+        <div class="tool-section">
+            <div class="tool-title">Add Music</div>
+            <div class="music-selector" onclick="document.getElementById('musicInput').click()">
+                <span style="font-size:1.5rem;">🎵</span>
+                <span class="music-info" id="musicLabel">Select Audio File...</span>
+            </div>
+            <input type="file" id="musicInput" style="display:none" accept="audio/*">
+        </div>
+
+        <div class="tool-section">
+            <div class="tool-title">Post Type</div>
+            <select id="postType" style="background:#222; border:1px solid rgba(255,255,255,0.1); color:#fff; padding:10px; border-radius:8px; outline:none;">
+                <option value="feed">Feed Post</option>
+                <option value="reel">Reel (Video only)</option>
+                <option value="story">Story (24h)</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary publish-btn" id="publishBtn" disabled>Share to World 🚀</button>
+    </div>
+</div>
+
+<script>
+    let mediaFile = null;
+    let mediaType = null;
+    let mediaDataUrl = null;
+    let musicDataUrl = null;
+    let currentFilter = 'none';
+
+    function getAuthHeaders(extra = {}) {
+        const token = localStorage.getItem("peoplelink_authToken");
+        return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+    }
+
+    // Media Upload
+    document.getElementById('mediaInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.size > 20 * 1024 * 1024) {
+            alert('File too large. Max 20MB.');
+            return;
+        }
+
+        mediaFile = file;
+        document.getElementById('uploadOverlay').style.display = 'none';
+        document.getElementById('publishBtn').disabled = false;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            mediaDataUrl = ev.target.result;
+            if (file.type.startsWith('image/')) {
+                mediaType = 'image';
+                const img = document.getElementById('imagePreview');
+                img.src = mediaDataUrl;
+                img.style.display = 'block';
+                document.getElementById('videoPreview').style.display = 'none';
+            } else if (file.type.startsWith('video/')) {
+                mediaType = 'video';
+                const vid = document.getElementById('videoPreview');
+                vid.src = mediaDataUrl;
+                vid.style.display = 'block';
+                document.getElementById('imagePreview').style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Filters
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            document.getElementById('imagePreview').style.filter = currentFilter;
+            document.getElementById('videoPreview').style.filter = currentFilter;
+        });
+    });
+
+    // Music
+    document.getElementById('musicInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        document.getElementById('musicLabel').textContent = file.name;
+        
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            musicDataUrl = ev.target.result;
+            const player = document.getElementById('bgMusicPlayer');
+            player.src = musicDataUrl;
+            player.play();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Publish
+    document.getElementById('publishBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('publishBtn');
+        btn.disabled = true;
+        btn.textContent = 'Publishing...';
+
+        const content = document.getElementById('captionInput').value.trim();
+        const type = document.getElementById('postType').value;
+
+        try {
+            if (type === 'story') {
+                // Post to stories API
+                const storyPayload = {
+                    data: mediaDataUrl,
+                    type: mediaType || 'image'
+                };
+                await fetch('/api/stories', {
+                    method: 'POST',
+                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                    body: JSON.stringify(storyPayload)
+                });
+                alert('Story published! It will be visible for 24 hours.');
+                window.location.href = 'feed.html';
+            } else {
+                // Post to posts API (feed post or reel)
+                const payload = { content, filter: currentFilter };
+                if (mediaType === 'image') payload.image = mediaDataUrl;
+                if (mediaType === 'video') payload.video = mediaDataUrl;
+                if (musicDataUrl) payload.music = musicDataUrl;
+
+                await fetch('/api/posts', {
+                    method: 'POST',
+                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                    body: JSON.stringify(payload)
+                });
+                window.location.href = type === 'reel' ? 'reels.html' : 'feed.html';
+            }
+        } catch(e) {
+            alert('Upload failed!');
+            btn.disabled = false;
+            btn.textContent = 'Share to World 🚀';
+        }
+    });
+
+    // Check auth
+    if (!localStorage.getItem("peoplelink_currentUser")) {
+        window.location.href = 'login.html';
+    }
+</script>
+
+</body>
+</html>

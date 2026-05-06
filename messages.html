@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Messages</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Ionicons & FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script src="ai-monitor.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", "Inter", system-ui, sans-serif; }
+        body { background: #0a0a0a; color: #eef2ff; min-height: 100vh; }
+
+        header { background: rgba(10,10,10,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 12px 0; position: sticky; top: 0; z-index: 110; }
+        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 800; font-size: 1rem; letter-spacing: 1px; color: #fff; text-decoration: none; }
+        .logo img { height: 28px; border-radius: 6px; }
+        .nav-btn { min-width: 40px; height: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); color: #f8fafc; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; }
+        .nav-btn:hover { background: rgba(255,255,255,0.12); }
+        .nav-btn.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+
+        .msg-container { max-width: 1000px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 320px 1fr; gap: 0; height: calc(100vh - 70px); }
+
+        .conv-list { background: #111; border: 1px solid rgba(255,255,255,0.06); border-radius: 20px 0 0 20px; display: flex; flex-direction: column; overflow: hidden; }
+        .conv-header { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); font-weight: 700; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; }
+        .conv-search { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .conv-search input { width: 100%; background: #1a1a1a; border: 1px solid #2a2a2e; border-radius: 20px; padding: 8px 14px; color: #fff; font-size: 0.85rem; outline: none; }
+        .conv-search input:focus { border-color: #6366f1; }
+        .conv-items { flex: 1; overflow-y: auto; }
+        .conv-item { display: flex; gap: 12px; padding: 14px 18px; cursor: pointer; transition: 0.15s; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .conv-item:hover, .conv-item.active { background: rgba(99,102,241,0.08); }
+        .conv-avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a855f7); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 1rem; flex-shrink: 0; overflow: hidden; }
+        .conv-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .conv-info { flex: 1; min-width: 0; }
+        .conv-name { font-weight: 600; font-size: 0.9rem; color: #e5e7eb; }
+        .conv-preview { font-size: 0.78rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+        .conv-time { font-size: 0.65rem; color: #4b5563; white-space: nowrap; }
+        .conv-empty { text-align: center; padding: 40px 20px; color: #4b5563; font-size: 0.9rem; }
+
+        .chat-panel { background: #0e0e0e; border: 1px solid rgba(255,255,255,0.06); border-left: none; border-radius: 0 20px 20px 0; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-header { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
+        .chat-header-name { font-weight: 700; font-size: 1rem; }
+        .chat-header-status { font-size: 0.72rem; color: #10b981; }
+        .chat-header-actions { margin-left: auto; display: flex; gap: 8px; }
+        .chat-action-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: #ccc; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: 0.2s; }
+        .chat-action-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .msg-bubble { max-width: 70%; padding: 10px 16px; border-radius: 18px; font-size: 0.88rem; line-height: 1.4; animation: fadeIn 0.2s; }
+        .msg-sent { align-self: flex-end; background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; border-bottom-right-radius: 6px; }
+        .msg-received { align-self: flex-start; background: #1e1e1e; color: #e5e7eb; border-bottom-left-radius: 6px; }
+        .msg-time { font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+        .msg-sent .msg-time { text-align: right; }
+
+        .chat-input-area { padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 10px; align-items: center; }
+        .chat-input-area input { flex: 1; background: #1a1a1a; border: 1px solid #2a2a2e; border-radius: 24px; padding: 10px 18px; color: #fff; font-size: 0.9rem; outline: none; }
+        .chat-input-area input:focus { border-color: #6366f1; }
+        .send-btn { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #4f46e5); border: none; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: 0.2s; }
+        .send-btn:hover { transform: scale(1.05); }
+
+        .chat-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; color: #4b5563; gap: 12px; }
+        .chat-empty-icon { font-size: 3rem; }
+
+        .new-chat-btn { width: 36px; height: 36px; border-radius: 50%; background: #6366f1; border: none; color: #fff; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+
+        .user-picker { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #151515; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 24px; width: 360px; z-index: 200; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .user-picker h3 { margin-bottom: 14px; font-size: 1rem; }
+        .user-picker input { width: 100%; background: #1a1a1a; border: 1px solid #2a2a2e; border-radius: 12px; padding: 10px 14px; color: #fff; font-size: 0.85rem; outline: none; margin-bottom: 14px; }
+        .user-picker-list { max-height: 240px; overflow-y: auto; }
+        .user-pick-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-radius: 10px; transition: 0.15s; }
+        .user-pick-item:hover { background: rgba(99,102,241,0.1); }
+        .picker-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* RESPONSIVE LAYOUT (Mobile, Tablet, Desktop) */
+
+        /* TABLET (768px to 1024px) */
+        @media (max-width: 1024px) and (min-width: 768px) {
+            .msg-container {
+                grid-template-columns: 280px 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+        }
+
+        /* MOBILE (Below 768px) */
+        @media (max-width: 767px) {
+            header { display: none; }
+            .msg-container { 
+                grid-template-columns: 1fr; 
+                height: calc(100vh - 70px); 
+                padding: 0; 
+                gap: 0;
+                margin-top: 0;
+            }
+            .conv-list { 
+                border-radius: 0; 
+                border: none;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+                max-height: 40%; 
+            }
+            .chat-panel { 
+                border-radius: 0; 
+                border: none;
+                flex: 1;
+            }
+            body { padding-bottom: 70px; }
+            
+            .mobile-bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                background: rgba(10,10,10,0.98);
+                backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(255,255,255,0.06);
+                padding: 10px 30px;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 999;
+                padding-bottom: calc(10px + env(safe-area-inset-bottom));
+            }
+            .mobile-nav-item { color: #71717a; font-size: 1.4rem; text-decoration: none; transition: 0.2s; }
+            .mobile-nav-item.active { color: #fff; }
+        }
+        @media (min-width: 768px) {
+            .mobile-bottom-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="mobile-bottom-nav">
+    <a href="feed.html" class="mobile-nav-item">🏠</a>
+    <a href="reels.html" class="mobile-nav-item">📱</a>
+    <a href="editor.html" class="mobile-nav-item" style="font-size: 1.8rem; color: #6366f1; transform: translateY(-5px);">⊕</a>
+    <a href="messages.html" class="mobile-nav-item active">💬</a>
+    <a href="profile.html" class="mobile-nav-item">👤</a>
+</div>
+<header>
+    <div class="header-inner">
+        <a class="logo" href="feed.html"><img src="logo.png" alt="People Link">PEOPLE LINK</a>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a class="nav-btn" href="feed.html">Home</a>
+            <a class="nav-btn active" href="messages.html">Messages</a>
+            <a class="nav-btn" href="notifications.html">Alerts</a>
+            <a class="nav-btn" href="profile.html">Profile</a>
+            <a class="nav-btn" href="settings.html">Settings</a>
+        </div>
+    </div>
+</header>
+
+<div class="msg-container">
+    <div class="conv-list">
+        <div class="conv-header">
+            <span>Messages</span>
+            <button class="new-chat-btn" id="newChatBtn" title="New Message">+</button>
+        </div>
+        <div class="conv-search"><input type="text" placeholder="Search conversations..." id="convSearch"></div>
+        <div class="conv-items" id="convItems">
+            <div class="conv-empty">Loading conversations...</div>
+        </div>
+    </div>
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-empty">
+            <div class="chat-empty-icon">💬</div>
+            <div>Select a conversation or start a new one</div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    let currentUser = null;
+    try { currentUser = JSON.parse(localStorage.getItem("peoplelink_currentUser") || "null"); } catch(_){}
+    if (!currentUser) { window.location.href = "login.html"; return; }
+
+    function getAuthHeaders(extra = {}) {
+        const token = localStorage.getItem("peoplelink_authToken");
+        return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+    }
+
+    function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
+    function timeAgo(d) {
+        const s = Math.floor((Date.now() - new Date(d).getTime()) / 1000);
+        if (s < 60) return "Just now";
+        if (s < 3600) return Math.floor(s/60) + "m";
+        if (s < 86400) return Math.floor(s/3600) + "h";
+        return Math.floor(s/86400) + "d";
+    }
+
+    let activePeerId = null;
+
+    async function loadConversations() {
+        try {
+            const res = await fetch('/api/conversations', { headers: getAuthHeaders() });
+            const convs = await res.json();
+            const container = document.getElementById('convItems');
+
+            if (!Array.isArray(convs) || convs.length === 0) {
+                container.innerHTML = '<div class="conv-empty">No conversations yet.<br>Start a new one!</div>';
+                return;
+            }
+
+            container.innerHTML = convs.map(c => `
+                <div class="conv-item ${c.peerId === activePeerId ? 'active' : ''}" data-peer="${c.peerId}">
+                    <div class="conv-avatar">${c.peerAvatar ? `<img src="${c.peerAvatar}">` : escapeHtml((c.peerName || 'U').charAt(0).toUpperCase())}</div>
+                    <div class="conv-info">
+                        <div class="conv-name">${escapeHtml(c.peerName)}</div>
+                        <div class="conv-preview">${escapeHtml(c.lastMessage)}</div>
+                    </div>
+                    <div class="conv-time">${timeAgo(c.lastTime)}</div>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('.conv-item').forEach(el => {
+                el.addEventListener('click', () => openChat(el.dataset.peer, el.querySelector('.conv-name').textContent));
+            });
+        } catch(e) {
+            document.getElementById('convItems').innerHTML = '<div class="conv-empty">Could not load conversations.</div>';
+        }
+    }
+
+    async function openChat(peerId, peerName) {
+        activePeerId = peerId;
+        document.querySelectorAll('.conv-item').forEach(el => el.classList.toggle('active', el.dataset.peer === peerId));
+
+        const panel = document.getElementById('chatPanel');
+        panel.innerHTML = `
+            <div class="chat-header">
+                <div class="conv-avatar" style="width:38px;height:38px;font-size:0.85rem;">${escapeHtml((peerName||'U').charAt(0).toUpperCase())}</div>
+                <div>
+                    <div class="chat-header-name">${escapeHtml(peerName)}</div>
+                    <div class="chat-header-status">● Online</div>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="chat-action-btn" title="Voice Call" id="audioCallBtn">📞</button>
+                    <button class="chat-action-btn" title="Video Call" id="videoCallBtn">📹</button>
+                </div>
+            </div>
+            <div id="videoContainer" style="display:none; padding:10px; background:#000; border-bottom:1px solid rgba(255,255,255,0.1); position:relative;">
+                <video id="remoteVideo" autoplay playsinline style="width:100%; max-height:300px; object-fit:contain; border-radius:10px;"></video>
+                <video id="localVideo" autoplay playsinline muted style="width:100px; position:absolute; bottom:20px; right:20px; border-radius:10px; border:2px solid #fff;"></video>
+                <div style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:10px;">
+                    <button id="endCallBtn" style="background:#ef4444; color:#fff; border:none; border-radius:50%; width:40px; height:40px; cursor:pointer;">📞</button>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+                <input type="text" placeholder="Type a message..." id="chatInput">
+                <button class="send-btn" id="sendBtn">➤</button>
+            </div>
+        `;
+
+        await loadMessages(peerId);
+
+        const input = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        async function sendMessage() {
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            try {
+                await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                    body: JSON.stringify({ toId: peerId, text })
+                });
+                
+                // Emit via socket
+                if (window.socket) {
+                    window.socket.emit('sendMessage', {
+                        to: peerId,
+                        from: currentUser.id,
+                        text: text,
+                        createdAt: Date.now()
+                    });
+                }
+                
+                await loadMessages(peerId);
+                loadConversations();
+            } catch(e) { alert('Failed to send message'); }
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+        // Call buttons
+        document.getElementById('videoCallBtn').addEventListener('click', () => startCall(peerId, true));
+        document.getElementById('audioCallBtn').addEventListener('click', () => startCall(peerId, false));
+    }
+
+    async function loadMessages(peerId) {
+        try {
+            const res = await fetch(`/api/messages/${peerId}`, { headers: getAuthHeaders() });
+            const msgs = await res.json();
+            const container = document.getElementById('chatMessages');
+            if (!container) return;
+
+            if (!Array.isArray(msgs) || msgs.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:#4b5563;padding:40px;">No messages yet. Say hello! 👋</div>';
+                return;
+            }
+
+            container.innerHTML = msgs.map(m => `
+                <div class="msg-bubble ${m.fromId === currentUser.id ? 'msg-sent' : 'msg-received'}">
+                    ${escapeHtml(m.text)}
+                    <div class="msg-time">${new Date(m.createdAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        } catch(e) {}
+    }
+
+    // New chat button
+    document.getElementById('newChatBtn').addEventListener('click', async () => {
+        const overlay = document.createElement('div');
+        overlay.className = 'picker-overlay';
+        const picker = document.createElement('div');
+        picker.className = 'user-picker';
+        picker.innerHTML = `<h3>New Message</h3><input type="text" placeholder="Search users..." id="userSearchInput"><div class="user-picker-list" id="userPickerList">Loading...</div>`;
+        document.body.appendChild(overlay);
+        document.body.appendChild(picker);
+
+        overlay.addEventListener('click', () => { overlay.remove(); picker.remove(); });
+
+        try {
+            const res = await fetch('/api/users');
+            const users = await res.json();
+            const list = picker.querySelector('#userPickerList');
+            const filtered = users.filter(u => u.id !== currentUser.id);
+            if (filtered.length === 0) { list.innerHTML = '<div style="color:#666;padding:10px;">No other users found. Invite someone!</div>'; return; }
+
+            function renderUsers(f) {
+                list.innerHTML = f.map(u => `
+                    <div class="user-pick-item" data-id="${u.id}" data-name="${escapeHtml(u.fullName || u.username)}">
+                        <div class="conv-avatar" style="width:36px;height:36px;font-size:0.8rem;">${u.avatarUrl ? `<img src="${u.avatarUrl}">` : escapeHtml((u.fullName||u.username||'U').charAt(0).toUpperCase())}</div>
+                        <div><div style="font-weight:600;font-size:0.88rem;">${escapeHtml(u.fullName || u.username)}</div><div style="font-size:0.72rem;color:#666;">@${escapeHtml(u.username || '')}</div></div>
+                    </div>
+                `).join('');
+
+                list.querySelectorAll('.user-pick-item').forEach(el => {
+                    el.addEventListener('click', () => {
+                        overlay.remove(); picker.remove();
+                        openChat(el.dataset.id, el.dataset.name);
+                    });
+                });
+            }
+
+            renderUsers(filtered);
+            picker.querySelector('#userSearchInput').addEventListener('input', e => {
+                const q = e.target.value.toLowerCase();
+                renderUsers(filtered.filter(u => (u.fullName||'').toLowerCase().includes(q) || (u.username||'').toLowerCase().includes(q)));
+            });
+        } catch(e) {
+            picker.querySelector('#userPickerList').innerHTML = '<div style="color:#666;">Failed to load users.</div>';
+        }
+    });
+
+    // Conversation search
+    document.getElementById('convSearch').addEventListener('input', e => {
+        const q = e.target.value.toLowerCase();
+        document.querySelectorAll('.conv-item').forEach(el => {
+            const name = el.querySelector('.conv-name')?.textContent.toLowerCase() || '';
+            el.style.display = name.includes(q) ? '' : 'none';
+        });
+    });
+
+    loadConversations();
+
+    // Auto-refresh active chat messages every 3 seconds
+    setInterval(() => {
+        if (activePeerId) loadMessages(activePeerId);
+    }, 3000);
+    // Auto-refresh conversation list every 5 seconds
+    setInterval(loadConversations, 5000);
+
+    // Auto-open chat from URL param (e.g. messages.html?open=userId)
+    const urlParams = new URLSearchParams(window.location.search);
+    const openUserId = urlParams.get('open');
+    if (openUserId) {
+        // Try to find the user's name
+        fetch(`/api/users/${openUserId}`).then(r => r.json()).then(u => {
+            if (u && (u.fullName || u.username)) {
+                openChat(openUserId, u.fullName || u.username);
+            } else {
+                openChat(openUserId, 'User');
+            }
+        }).catch(() => openChat(openUserId, 'User'));
+    }
+
+    // --- Socket.io & PeerJS WebRTC ---
+    let myPeer;
+    let currentCall;
+    
+    // Load scripts dynamically to avoid breaking offline mode if scripts are missing
+    function loadScriptsAndInit() {
+        const socketScript = document.createElement('script');
+        socketScript.src = '/socket.io/socket.io.js';
+        socketScript.onload = () => {
+            const socket = io();
+            window.socket = socket;
+            socket.emit('join', currentUser.id);
+            socket.on('newMessage', (data) => {
+                if (data.from === activePeerId) {
+                    loadMessages(activePeerId);
+                }
+                loadConversations();
+            });
+        };
+        document.head.appendChild(socketScript);
+
+        const peerScript = document.createElement('script');
+        peerScript.src = 'https://unpkg.com/peerjs@1.5.1/dist/peerjs.min.js';
+        peerScript.onload = () => {
+            myPeer = new Peer(currentUser.id, {
+                host: location.hostname,
+                port: location.protocol === 'https:' ? 443 : (location.port || 80),
+                path: '/peerjs',
+                secure: location.protocol === 'https:'
+            });
+
+            myPeer.on('call', call => {
+                const isVideo = call.metadata ? call.metadata.video : true;
+                const typeText = isVideo ? "Video" : "Audio";
+                const accept = confirm(`Incoming ${typeText} call... Accept?`);
+                if (accept) {
+                    navigator.mediaDevices.getUserMedia({ video: isVideo, audio: true }).then(stream => {
+                        const localVid = document.getElementById('localVideo');
+                        if (localVid) localVid.srcObject = stream;
+                        call.answer(stream);
+                        setupCallEvents(call);
+                    }).catch(err => {
+                        console.error('Call accept media error:', err);
+                        alert('Failed to get camera/mic access');
+                    });
+                } else {
+                    call.close();
+                }
+            });
+        };
+        document.head.appendChild(peerScript);
+    }
+
+    loadScriptsAndInit();
+
+    window.startCall = function(peerId, video) {
+        if (!myPeer || myPeer.disconnected) {
+            alert("Call server is still connecting... Please wait a moment and try again.");
+            return;
+        }
+
+        // WebRTC getUserMedia is blocked on HTTP (except localhost)
+        if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            alert('⚠️ Warning: Browsers block camera/microphone access on HTTP network IPs. To test calls, please use http://localhost:3000 on the host PC, or we need to setup HTTPS/ngrok.');
+            // We will attempt anyway just in case the user has enabled chrome://flags
+        }
+
+        navigator.mediaDevices.getUserMedia({ video, audio: true }).then(stream => {
+            const localVid = document.getElementById('localVideo');
+            if (localVid) localVid.srcObject = stream;
+            
+            const call = myPeer.call(peerId, stream, { metadata: { video } });
+            setupCallEvents(call);
+        }).catch(err => {
+            console.error("Media error:", err);
+            alert('Failed to get camera/mic. Please allow permissions in your browser. Error: ' + err.message);
+        });
+    };
+
+    function setupCallEvents(call) {
+        currentCall = call;
+        const container = document.getElementById('videoContainer');
+        const remoteVid = document.getElementById('remoteVideo');
+        if (container) container.style.display = 'block';
+
+        call.on('stream', userVideoStream => {
+            console.log("Received remote stream", userVideoStream);
+            if (remoteVid) {
+                remoteVid.srcObject = userVideoStream;
+                // Force play to overcome autoplay policies
+                setTimeout(() => {
+                    remoteVid.play().catch(e => {
+                        console.error("Autoplay blocked:", e);
+                        // Show an unmute/play button overlay ideally, but for now just log
+                    });
+                }, 100);
+            }
+        });
+
+        call.on('error', err => {
+            console.error("Call error:", err);
+            alert("Call connection error: " + err.type);
+        });
+
+        call.on('close', () => {
+            if (container) container.style.display = 'none';
+            if (remoteVid) remoteVid.srcObject = null;
+        });
+
+        const endBtn = document.getElementById('endCallBtn');
+        if (endBtn) {
+            endBtn.onclick = () => {
+                call.close();
+                if (container) container.style.display = 'none';
+            };
+        }
+    }
+})();
+</script>
+</body>
+</html>

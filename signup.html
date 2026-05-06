@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Sign Up</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Righteous&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <!-- 3D Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+    <script src="ai-monitor.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('bg-auth.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .welcome-section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .welcome-section p {
+            font-size: 18px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 12px;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .signup-card {
+            padding: 40px;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signup-header h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .signup-header p {
+            color: var(--text-muted);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+            height: 15px;
+        }
+
+        .strength-weak { color: #ff4444; }
+        .strength-medium { color: #ffaa00; }
+        .strength-strong { color: #00ff44; }
+
+        .terms-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .terms-group input {
+            width: auto;
+            margin-top: 4px;
+        }
+
+        .terms-group label {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .terms-group a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border-subtle);
+        }
+
+        .divider span {
+            background: #1a1a1a;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .social-signup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 50px;
+            padding: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .login-link {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .form-row, .social-signup {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="logo.png" alt="People Link Logo" style="height: 32px; width: auto; margin-right: 10px; border-radius: 6px; vertical-align: middle;">
+            PEOPLE LINK
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html" style="color: #fff;">Sign Up</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="main-content">
+            <div class="welcome-section">
+                <h1>Join People Link</h1>
+                <p>Connect with people who matter. Experience a fresh way of social networking designed for genuine connections, privacy, and meaningful interactions.</p>
+
+                <ul class="benefits-list">
+                    <li>Connect with like-minded individuals</li>
+                    <li>Privacy-first social experience</li>
+                    <li>High-quality media sharing</li>
+                    <li>Community-driven features</li>
+                    <li>Ad-free environment</li>
+                    <li>Verified profiles</li>
+                </ul>
+            </div>
+
+            <div class="signup-container">
+                <div class="signup-card glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="signup-header">
+                        <h2>Create Account</h2>
+                        <p>Join our growing community today</p>
+                    </div>
+
+                    <form id="signupForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter first name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" class="form-control" placeholder="Enter last name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" class="form-control" placeholder="Choose a username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-container">
+                                <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword('password')">show</button>
+                            </div>
+                            <div id="passwordStrength" class="password-strength"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <div class="password-container">
+                                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                                <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">show</button>
+                            </div>
+                            <div id="passwordMatch" class="password-strength"></div>
+                        </div>
+
+                        <div class="terms-group">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">
+                                I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.
+                            </label>
+                        </div>
+
+                        <div class="terms-group">
+                            <input type="checkbox" id="newsletter">
+                            <label for="newsletter">
+                                Send me updates about new features and community news
+                            </label>
+                        </div>
+
+                        <button type="submit" class="signup-btn">Create Account</button>
+
+                        <div class="divider">
+                            <span>Or sign up with</span>
+                        </div>
+
+                        <div class="social-signup">
+                            <button type="button" class="social-btn google" onclick="signUpWithGoogle()">
+                                <i>G</i> Google
+                            </button>
+                            <button type="button" class="social-btn facebook" onclick="signUpWithFacebook()">
+                                <i>f</i> Facebook
+                            </button>
+                        </div>
+
+                        <div class="login-link">
+                            Already have an account? <a href="login.html">Sign in now</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="help.html">Help Center</a>
+                <a href="about.html#careers">Careers</a>
+            </div>
+            <p class="copyright">&copy; 2026 People Link. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const passwordInput = document.getElementById(fieldId);
+            const toggleButton = passwordInput.parentNode.querySelector(".toggle-password");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "hide";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "show";
+            }
+        }
+
+        document.getElementById("password").addEventListener("input", function() {
+            const password = this.value;
+            const strengthText = document.getElementById("passwordStrength");
+
+            let strength = 0;
+            let feedback = "";
+
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            if (password.length === 0) {
+                feedback = "";
+            } else if (strength <= 2) {
+                feedback = '<span class="strength-weak">Weak password</span>';
+            } else if (strength <= 4) {
+                feedback = '<span class="strength-medium">Medium strength</span>';
+            } else {
+                feedback = '<span class="strength-strong">Strong password</span>';
+            }
+
+            strengthText.innerHTML = feedback;
+        });
+
+        document.getElementById("confirmPassword").addEventListener("input", function() {
+            const password = document.getElementById("password").value;
+            const confirmPassword = this.value;
+            const matchText = document.getElementById("passwordMatch");
+
+            if (confirmPassword.length === 0) {
+                matchText.innerHTML = "";
+            } else if (password === confirmPassword) {
+                matchText.innerHTML = '<span class="strength-strong">Passwords match</span>';
+            } else {
+                matchText.innerHTML = '<span class="strength-weak">Passwords do not match</span>';
+            }
+        });
+
+        function getStoredUsers() {
+            try {
+                const raw = localStorage.getItem("peoplelink_users");
+                const users = raw ? JSON.parse(raw) : [];
+                return Array.isArray(users) ? users : [];
+            } catch (_err) {
+                return [];
+            }
+        }
+
+        function saveStoredUsers(users) {
+            localStorage.setItem("peoplelink_users", JSON.stringify(users));
+        }
+
+        function setCurrentUser(user) {
+            const { password, ...safeUser } = user;
+            localStorage.setItem("peoplelink_currentUser", JSON.stringify(safeUser));
+        }
+
+        document.getElementById("signupForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const terms = document.getElementById("terms").checked;
+            const newsletter = document.getElementById("newsletter").checked;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match. Please check and try again.");
+                return;
+            }
+
+            if (!terms) {
+                alert("You must agree to the Terms of Service and Privacy Policy to continue.");
+                return;
+            }
+
+            const users = getStoredUsers();
+            const duplicate = users.some((u) => {
+                const sameEmail = typeof u.email === "string" && u.email.toLowerCase() === email;
+                const sameUsername = typeof u.username === "string" && u.username.toLowerCase() === username.toLowerCase();
+                return sameEmail || sameUsername;
+            });
+
+            if (duplicate) {
+                alert("This email or username is already in use. Please choose another.");
+                return;
+            }
+
+            createAccount({
+                firstName,
+                lastName,
+                fullName: `${firstName} ${lastName}`.trim(),
+                email,
+                username,
+                password,
+                newsletter,
+                createdAt: new Date().toISOString()
+            });
+        });
+
+        async function createAccount(user) {
+            const signupBtn = document.querySelector(".signup-btn");
+            const originalText = signupBtn.textContent;
+            signupBtn.innerHTML = '<span class="loading"></span> Creating Account...';
+            signupBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    if (result.token) localStorage.setItem("peoplelink_authToken", result.token);
+                    localStorage.setItem("peoplelink_currentUser", JSON.stringify(result.user));
+                    alert(`Welcome to People Link, ${result.user.fullName}. Your account is ready.`);
+                    window.location.href = "feed.html";
+                } else {
+                    alert(result.message || "Signup failed");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection to server failed. Please ensure the server is running.");
+            } finally {
+                signupBtn.textContent = originalText;
+                signupBtn.disabled = false;
+            }
+        }
+
+        function signUpWithGoogle() {
+            alert("Google login demo. Backend is required for production auth.");
+        }
+
+        function signUpWithFacebook() {
+            alert("Facebook login demo. Backend is required for production auth.");
+        }
+
+        document.getElementById("username").addEventListener("blur", function() {
+            const username = this.value.trim();
+            if (username.length >= 3) {
+                setTimeout(() => {
+                    const takenUsernames = ["admin", "test", "user", "demo"];
+                    if (takenUsernames.includes(username.toLowerCase())) {
+                        this.style.borderColor = "#ff4444";
+                    } else {
+                        this.style.borderColor = "#00ff44";
+                    }
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

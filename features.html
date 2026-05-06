@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Features</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: radial-gradient(circle at top right, #1a1a2e, #0a0a0a);
+            overflow-x: hidden;
+        }
+        .page-header {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 60px;
+        }
+        .feature-card {
+            padding: 40px;
+            text-align: left;
+            transition: var(--transition-smooth);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .cta-section {
+            margin-top: 80px;
+            padding: 60px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+        }
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav-inner">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Logo" style="height: 32px; border-radius: 6px;">
+                PEOPLE LINK
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="features.html" class="active">Features</a>
+                <a href="help.html">Help</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Experience the Future</h1>
+            <p class="page-subtitle">Everything in People Link is designed for clarity, trust, and productivity. Built for the modern professional.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="glass-card feature-card">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Smart Feed</h3>
+                <p>Clean feed optimized for relevance and meaningful interactions. No algorithms manipulation, just what matters.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="feature-icon"><i class="fas fa-user-tie"></i></div>
+                <h3>Unified Identity</h3>
+                <p>Professional and personal identity in one structured profile. Showcase your journey with premium aesthetics.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                <h3>Secure Messaging</h3>
+                <p>Fast direct messages with simple notifications and end-to-end focus on your privacy.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Privacy First</h3>
+                <p>Advanced controls to choose exactly who can view your profile, posts, and digital footprint.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="feature-icon"><i class="fas fa-video"></i></div>
+                <h3>Rich Media</h3>
+                <p>Post high-quality videos, images, and interactive content with built-in creator insights.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="feature-icon"><i class="fas fa-users"></i></div>
+                <h3>Safe Communities</h3>
+                <p>Advanced reporting and moderation tools built into the core of our networking infrastructure.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="font-size: 2rem; margin-bottom: 24px;">Ready to start your journey?</h2>
+            <div style="display: flex; gap: 16px; justify-content: center;">
+                <a href="signup.html" class="btn btn-primary">Join Now</a>
+                <a href="feed.html" class="btn btn-secondary">Explore Feed</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 People Link. Designed for the Next Generation.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Reels</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Ionicons & FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script src="ai-monitor.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", "Inter", system-ui, sans-serif; }
+        body { background: #000; color: #fff; min-height: 100vh; overflow: hidden; }
+
+        header { background: rgba(0,0,0,0.8); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 10px 0; position: fixed; top: 0; left: 0; right: 0; z-index: 110; }
+        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 800; font-size: 1rem; letter-spacing: 1px; color: #fff; text-decoration: none; }
+        .logo img { height: 28px; border-radius: 6px; }
+        .nav-btn { min-width: 40px; height: 36px; padding: 0 12px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; }
+        .nav-btn:hover { background: rgba(255,255,255,0.15); }
+        .nav-btn.active { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); }
+
+        .reels-container { position: fixed; top: 56px; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .reel-viewport { width: min(400px, 90vw); height: calc(100vh - 56px); position: relative; overflow: hidden; scroll-snap-type: y mandatory; overflow-y: scroll; scrollbar-width: none; }
+        .reel-viewport::-webkit-scrollbar { display: none; }
+
+        .reel-slide { width: 100%; height: calc(100vh - 56px); scroll-snap-align: start; position: relative; display: flex; align-items: center; justify-content: center; background: #111; }
+        .reel-slide video { width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
+
+        .reel-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); pointer-events: none; }
+        .reel-author { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; pointer-events: auto; }
+        .reel-author-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a855f7); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; overflow: hidden; }
+        .reel-author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .reel-author-name { font-weight: 600; font-size: 0.9rem; }
+        .reel-caption { font-size: 0.85rem; color: #ddd; line-height: 1.4; max-height: 60px; overflow: hidden; }
+
+        .reel-actions { position: absolute; right: 12px; bottom: 100px; display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .reel-action { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; transition: 0.2s; }
+        .reel-action:hover { transform: scale(1.1); }
+        .reel-action-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; backdrop-filter: blur(8px); }
+        .reel-action-icon.liked { background: rgba(239,68,68,0.3); }
+        .reel-action-label { font-size: 0.65rem; font-weight: 600; }
+
+        .reel-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; gap: 16px; }
+        .reel-empty-icon { font-size: 4rem; }
+
+        .upload-reel-btn { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a855f7); border: none; color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 120; box-shadow: 0 8px 24px rgba(99,102,241,0.4); transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .upload-reel-btn:hover { transform: scale(1.08); }
+        #reelUploadInput { display: none; }
+        @media (max-width: 680px) {
+            header { display: none; }
+            .reels-container { top: 0; bottom: 70px; }
+            .reel-viewport { width: 100%; height: 100%; border-radius: 0; }
+            .reel-slide { height: 100%; }
+            .upload-reel-btn { bottom: 80px; }
+            
+            .mobile-bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                background: rgba(10,10,10,0.95);
+                backdrop-filter: blur(14px);
+                border-top: 1px solid rgba(255,255,255,0.06);
+                padding: 10px 20px;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 999;
+                padding-bottom: calc(10px + env(safe-area-inset-bottom));
+            }
+            .mobile-nav-item { color: #888; font-size: 1.2rem; text-decoration: none; transition: 0.2s; }
+            .mobile-nav-item.active { color: #fff; }
+        }
+        @media (min-width: 681px) {
+            .mobile-bottom-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="mobile-bottom-nav">
+    <a href="feed.html" class="mobile-nav-item">🏠</a>
+    <a href="reels.html" class="mobile-nav-item active">📱</a>
+    <a href="editor.html" class="mobile-nav-item" style="font-size: 1.8rem; color: #6366f1; transform: translateY(-5px);">⊕</a>
+    <a href="messages.html" class="mobile-nav-item">💬</a>
+    <a href="profile.html" class="mobile-nav-item">👤</a>
+</div>
+
+<header>
+    <div class="header-inner">
+        <a class="logo" href="feed.html"><img src="logo.png" alt="People Link">PEOPLE LINK</a>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a class="nav-btn" href="feed.html">Home</a>
+            <a class="nav-btn active" href="reels.html">Reels</a>
+            <a class="nav-btn" href="messages.html">Chat</a>
+            <a class="nav-btn" href="profile.html">Profile</a>
+        </div>
+    </div>
+</header>
+
+<div class="reels-container">
+    <div class="reel-viewport" id="reelViewport">
+        <div class="reel-slide"><div class="reel-empty"><div class="reel-empty-icon">🎬</div><div>Loading reels...</div></div></div>
+    </div>
+</div>
+
+<button class="upload-reel-btn" id="uploadReelBtn" title="Upload Reel">🎥</button>
+<input type="file" id="reelUploadInput" accept="video/*">
+
+<script>
+(function() {
+    let currentUser = null;
+    try { currentUser = JSON.parse(localStorage.getItem("peoplelink_currentUser") || "null"); } catch(_){}
+    if (!currentUser) { window.location.href = "login.html"; return; }
+
+    function getAuthHeaders(extra = {}) {
+        const token = localStorage.getItem("peoplelink_authToken");
+        return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+    }
+    function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
+
+    async function loadReels() {
+        const viewport = document.getElementById('reelViewport');
+        try {
+            const res = await fetch('/api/reels');
+            const reels = await res.json();
+
+            if (!Array.isArray(reels) || reels.length === 0) {
+                viewport.innerHTML = `<div class="reel-slide"><div class="reel-empty"><div class="reel-empty-icon">🎬</div><div>No reels yet!</div><div style="font-size:0.85rem;">Upload a video to create the first reel</div></div></div>`;
+                return;
+            }
+
+            viewport.innerHTML = reels.map((r, i) => `
+                <div class="reel-slide" data-id="${r.id}" data-index="${i}">
+                    <video src="${r.video}" loop playsinline ${i === 0 ? 'autoplay muted' : ''}></video>
+                    <div class="reel-overlay">
+                        <div class="reel-author">
+                            <div class="reel-author-avatar">${r.authorAvatar ? `<img src="${r.authorAvatar}">` : escapeHtml((r.authorName||'U').charAt(0).toUpperCase())}</div>
+                            <span class="reel-author-name">${escapeHtml(r.authorName || 'User')}</span>
+                        </div>
+                        <div class="reel-caption">${escapeHtml(r.content || '')}</div>
+                    </div>
+                    <div class="reel-actions">
+                        <div class="reel-action like-reel" data-id="${r.id}">
+                            <div class="reel-action-icon ${(r.likedBy||[]).includes(currentUser.id) ? 'liked' : ''}">❤️</div>
+                            <div class="reel-action-label">${r.likes || 0}</div>
+                        </div>
+                        <div class="reel-action">
+                            <div class="reel-action-icon">💬</div>
+                            <div class="reel-action-label">${(r.comments||[]).length}</div>
+                        </div>
+                        <div class="reel-action">
+                            <div class="reel-action-icon">↗️</div>
+                            <div class="reel-action-label">Share</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Auto-play visible reel
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const video = entry.target.querySelector('video');
+                    if (video) {
+                        if (entry.isIntersecting) { video.play().catch(()=>{}); }
+                        else { video.pause(); }
+                    }
+                });
+            }, { threshold: 0.6 });
+
+            viewport.querySelectorAll('.reel-slide').forEach(slide => observer.observe(slide));
+
+            // Tap to pause/play
+            viewport.querySelectorAll('video').forEach(v => {
+                v.addEventListener('click', () => { v.paused ? v.play() : v.pause(); });
+            });
+
+            // Like reels
+            viewport.querySelectorAll('.like-reel').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch(`/api/posts/${btn.dataset.id}/like`, { method: 'POST', headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
+                        const data = await res.json();
+                        const icon = btn.querySelector('.reel-action-icon');
+                        const label = btn.querySelector('.reel-action-label');
+                        icon.classList.toggle('liked', data.likedByMe);
+                        label.textContent = data.likes;
+                    } catch(e) {}
+                });
+            });
+        } catch(e) {
+            viewport.innerHTML = `<div class="reel-slide"><div class="reel-empty"><div class="reel-empty-icon">⚠️</div><div>Failed to load reels</div></div></div>`;
+        }
+    }
+
+    // Upload reel
+    document.getElementById('uploadReelBtn').addEventListener('click', () => {
+        window.location.href = 'editor.html';
+    });
+
+    loadReels();
+})();
+</script>
+</body>
+</html>

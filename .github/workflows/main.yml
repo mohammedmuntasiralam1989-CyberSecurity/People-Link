@@ -1,0 +1,56 @@
+name: 🚀 People Link CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: 🛠️ Build & Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🛡️ Security Audit
+        run: npm audit --audit-level=high --omit=dev || true
+
+      - name: ✨ Validate Server Configuration
+        run: |
+          node -e "try { require('./server.js'); console.log('✅ server.js is valid Node.js code'); process.exit(0); } catch(e) { if(e.message.includes('DATABASE_URL')) { console.log('ℹ️ Server requires DATABASE_URL, which is expected.'); process.exit(0); } console.error(e); process.exit(1); }"
+
+  deploy:
+    name: 🚢 Deployment
+    needs: build-and-test
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      # Template for InsForge Deployment
+      # To use this, add INSFORGE_API_KEY to your GitHub Repository Secrets
+      - name: 🌌 Deploy to People Link Cloud (InsForge)
+        if: env.INSFORGE_API_KEY != ''
+        run: |
+          echo "Deploying to InsForge..."
+          # npx insforge deploy --token ${{ secrets.INSFORGE_API_KEY }}
+        env:
+          INSFORGE_API_KEY: ${{ secrets.INSFORGE_API_KEY }}
+
+      # Template for Netlify Deployment (if not already handled by Netlify's own Git integration)
+      - name: 🌐 Netlify Status
+        run: echo "Project is configured for Netlify via netlify.toml. Ensure your GitHub repo is linked in Netlify dashboard."

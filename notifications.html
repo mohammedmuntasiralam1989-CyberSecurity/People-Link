@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Link - Notifications</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Ionicons & FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script src="ai-monitor.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", "Inter", system-ui, sans-serif; }
+        body { background: #0a0a0a; color: #eef2ff; min-height: 100vh; }
+        header { background: rgba(10,10,10,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 12px 0; position: sticky; top: 0; z-index: 110; }
+        .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 800; font-size: 1rem; letter-spacing: 1px; color: #fff; text-decoration: none; }
+        .logo img { height: 28px; border-radius: 6px; }
+        .nav-btn { min-width: 40px; height: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); color: #f8fafc; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; }
+        .nav-btn:hover { background: rgba(255,255,255,0.12); }
+        .nav-btn.active { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+
+        .container { max-width: 680px; margin: 0 auto; padding: 24px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .page-header h1 { font-size: 1.6rem; font-weight: 700; }
+        .mark-read-btn { padding: 8px 18px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #9ca3af; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .mark-read-btn:hover { background: #6366f1; color: #fff; border-color: #6366f1; }
+
+        .notif-item { display: flex; gap: 14px; padding: 16px 18px; background: linear-gradient(145deg, #131313, #0c0c0c); border: 1px solid rgba(255,255,255,0.04); border-radius: 16px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; animation: fadeIn 0.3s; }
+        .notif-item:hover { border-color: rgba(99,102,241,0.2); background: rgba(99,102,241,0.04); }
+        .notif-item.unread { border-left: 3px solid #6366f1; }
+        .notif-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a855f7); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 0.9rem; flex-shrink: 0; overflow: hidden; }
+        .notif-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .notif-content { flex: 1; }
+        .notif-text { font-size: 0.88rem; color: #e5e7eb; line-height: 1.4; }
+        .notif-text strong { color: #fff; }
+        .notif-time { font-size: 0.7rem; color: #6b7280; margin-top: 4px; }
+        .notif-icon { font-size: 1.2rem; }
+        .notif-empty { text-align: center; padding: 60px 20px; color: #4b5563; }
+        .notif-empty-icon { font-size: 3rem; margin-bottom: 12px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-inner">
+        <a class="logo" href="feed.html"><img src="logo.png" alt="People Link">PEOPLE LINK</a>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <a class="nav-btn" href="feed.html">Home</a>
+            <a class="nav-btn" href="messages.html">Messages</a>
+            <a class="nav-btn active" href="notifications.html">Alerts</a>
+            <a class="nav-btn" href="profile.html">Profile</a>
+            <a class="nav-btn" href="settings.html">Settings</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="page-header">
+        <h1>🔔 Notifications</h1>
+        <button class="mark-read-btn" id="markAllRead">Mark all as read</button>
+    </div>
+    <div id="notifList">
+        <div class="notif-empty"><div class="notif-empty-icon">🔔</div>Loading notifications...</div>
+    </div>
+</div>
+
+<script>
+(function() {
+    let currentUser = null;
+    try { currentUser = JSON.parse(localStorage.getItem("peoplelink_currentUser") || "null"); } catch(_){}
+    if (!currentUser) { window.location.href = "login.html"; return; }
+
+    function getAuthHeaders(extra = {}) {
+        const token = localStorage.getItem("peoplelink_authToken");
+        return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+    }
+
+    function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])); }
+
+    function timeAgo(d) {
+        const s = Math.floor((Date.now() - new Date(d).getTime()) / 1000);
+        if (s < 60) return "Just now";
+        if (s < 3600) return Math.floor(s/60) + " min ago";
+        if (s < 86400) return Math.floor(s/3600) + " hours ago";
+        return Math.floor(s/86400) + " days ago";
+    }
+
+    function getNotifText(n) {
+        const name = `<strong>${escapeHtml(n.fromName)}</strong>`;
+        switch(n.type) {
+            case 'follow': return `${name} started following you`;
+            case 'like': return `${name} liked your post`;
+            case 'comment': return `${name} commented: "${escapeHtml(n.preview || '')}"`;
+            case 'message': return `${name} sent you a message: "${escapeHtml(n.preview || '')}"`;
+            default: return `${name} interacted with you`;
+        }
+    }
+
+    function getNotifIcon(type) {
+        switch(type) {
+            case 'follow': return '👤';
+            case 'like': return '❤️';
+            case 'comment': return '💬';
+            case 'message': return '✉️';
+            default: return '🔔';
+        }
+    }
+
+    async function loadNotifications() {
+        try {
+            const res = await fetch('/api/notifications', { headers: getAuthHeaders() });
+            const notifs = await res.json();
+            const container = document.getElementById('notifList');
+
+            if (!Array.isArray(notifs) || notifs.length === 0) {
+                container.innerHTML = '<div class="notif-empty"><div class="notif-empty-icon">🔔</div>No notifications yet.<br>Follow people and interact to get started!</div>';
+                return;
+            }
+
+            container.innerHTML = notifs.map(n => `
+                <div class="notif-item ${n.read ? '' : 'unread'}" data-type="${n.type}" data-from="${n.fromId || ''}" data-post="${n.postId || ''}" style="cursor:pointer;">
+                    <div class="notif-avatar">${n.fromAvatar ? `<img src="${n.fromAvatar}">` : escapeHtml((n.fromName || 'U').charAt(0).toUpperCase())}</div>
+                    <div class="notif-content">
+                        <div class="notif-text">${getNotifText(n)}</div>
+                        <div class="notif-time">${timeAgo(n.createdAt)}</div>
+                    </div>
+                    <div class="notif-icon">${getNotifIcon(n.type)}</div>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('.notif-item').forEach(el => {
+                el.addEventListener('click', () => {
+                    const type = el.dataset.type;
+                    const fromId = el.dataset.from;
+                    if (type === 'follow' && fromId) window.location.href = `profile.html?user=${fromId}`;
+                    else if (type === 'message' && fromId) window.location.href = `messages.html?open=${fromId}`;
+                    else if (type === 'like' || type === 'comment') window.location.href = 'feed.html';
+                });
+            });
+        } catch(e) {
+            document.getElementById('notifList').innerHTML = '<div class="notif-empty"><div class="notif-empty-icon">⚠️</div>Could not load notifications.</div>';
+        }
+    }
+
+    document.getElementById('markAllRead').addEventListener('click', async () => {
+        try {
+            await fetch('/api/notifications/read', { method: 'PATCH', headers: getAuthHeaders() });
+            loadNotifications();
+        } catch(e) { alert('Failed to mark as read'); }
+    });
+
+    loadNotifications();
+    setInterval(loadNotifications, 8000);
+})();
+</script>
+</body>
+</html>

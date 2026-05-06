@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Environment & Secrets
+.env
+.env.local
+
+# Local Databases
+db.json
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
